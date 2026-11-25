@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>경성전자고등학교 총동창회</title>
+<meta name="description" content="1966년 창립, 경성전자고등학교 총동창회 공식 홈페이지">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='%2312306B'/><text x='32' y='41' font-size='24' text-anchor='middle' fill='white' font-family='serif' font-weight='700'>KS</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+:root{
+  color-scheme: light;
+  --paper:#FFFFFF; --mist:#F2F5F9; --mist2:#E7EDF5;
+  --navy:#12306B; --navy-deep:#0B2150; --harbor:#3A73B8;
+  --brass:#A98544; --brass-soft:#E9DFC9;
+  --ink:#1A2233; --ink-soft:#4A566B; --line:#DCE3EC;
+  --danger:#B3261E; --ok:#1E7A4C;
+  --serif:"Noto Serif KR","Nanum Myeongjo",Georgia,serif;
+  --sans:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --wrap:1180px;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --paper:#10182A; --mist:#162138; --mist2:#1D2A45;
+    --navy:#9DB8EA; --navy-deep:#0A1224; --harbor:#7FA9E0;
+    --brass:#D2B378; --brass-soft:#3A3322;
+    --ink:#E8EDF6; --ink-soft:#A9B4C8; --line:#2A3755;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --paper:#10182A; --mist:#162138; --mist2:#1D2A45;
+  --navy:#9DB8EA; --navy-deep:#0A1224; --harbor:#7FA9E0;
+  --brass:#D2B378; --brass-soft:#3A3322;
+  --ink:#E8EDF6; --ink-soft:#A9B4C8; --line:#2A3755;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 90px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all}
+img{max-width:100%;display:block}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--harbor);outline-offset:2px;border-radius:2px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* utility bar */
+.util{background:var(--navy-deep);color:#D8E2F4;font-size:13px}
+.util .wrap{display:flex;justify-content:flex-end;gap:18px;align-items:center;min-height:36px}
+.util a,.util button{color:#D8E2F4;text-decoration:none;background:none;border:0;cursor:pointer;padding:4px 0}
+.util a:hover,.util button:hover{color:#fff;text-decoration:underline}
+.util .who{color:#fff}
+
+/* header */
+header.site{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--paper)}
+header.site .wrap{display:flex;align-items:center;gap:32px;min-height:78px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;flex-shrink:0}
+.brand .mark{width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:16px;letter-spacing:.02em;box-shadow:inset 0 0 0 3px var(--paper),0 0 0 1.5px var(--brass)}
+.brand .mark img{width:100%;height:100%;object-fit:contain;border-radius:50%}
+.brand .name{line-height:1.25}
+.brand .name small{display:block;font-size:12px;color:var(--ink-soft);letter-spacing:.04em}
+.brand .name strong{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--navy)}
+nav.gnb{margin-left:auto}
+nav.gnb>ul{list-style:none;margin:0;padding:0;display:flex;gap:4px}
+nav.gnb>ul>li{position:relative}
+nav.gnb>ul>li>a{display:block;padding:26px 16px;font-weight:500;font-size:16px;text-decoration:none;color:var(--ink)}
+nav.gnb>ul>li>a.on{color:var(--navy);box-shadow:inset 0 -3px 0 var(--brass)}
+nav.gnb .sub{position:absolute;left:50%;top:100%;transform:translateX(-50%);min-width:180px;background:var(--paper);border:1px solid var(--line);border-top:2px solid var(--navy);padding:8px 0;list-style:none;margin:0;display:none;box-shadow:0 12px 30px rgba(18,48,107,.12)}
+nav.gnb li:hover>.sub,nav.gnb li:focus-within>.sub{display:block}
+nav.gnb .sub a{display:block;padding:8px 20px;text-decoration:none;font-size:15px;color:var(--ink-soft);white-space:nowrap}
+nav.gnb .sub a:hover{color:var(--navy);background:var(--mist)}
+.menu-btn{display:none;margin-left:auto;background:none;border:1px solid var(--line);border-radius:6px;padding:8px 12px;cursor:pointer}
+
+/* hero */
+.hero{position:relative;background:linear-gradient(180deg,var(--mist) 0%,var(--paper) 100%);overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;padding-top:72px;padding-bottom:80px}
+.hero .years{font-family:var(--serif);font-weight:500;color:var(--brass);font-size:clamp(44px,7vw,92px);line-height:1;letter-spacing:-.02em;margin:0 0 22px;display:flex;align-items:baseline;gap:.18em}
+.hero .years span{font-size:.45em;color:var(--ink-soft)}
+.hero h1{font-family:var(--serif);font-weight:700;color:var(--navy);font-size:clamp(30px,4.2vw,50px);line-height:1.28;margin:0 0 20px;letter-spacing:-.01em}
+.hero p.lead{font-size:18px;color:var(--ink-soft);max-width:30em;margin:0 0 32px}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+.frame{position:relative;aspect-ratio:4/3;border-radius:4px;overflow:hidden;background:
+  radial-gradient(circle at 75% 20%,rgba(169,133,68,.25),transparent 45%),
+  linear-gradient(135deg,var(--navy) 0%,var(--harbor) 100%)}
+.frame::after{content:"";position:absolute;inset:14px;border:1px solid rgba(255,255,255,.55);pointer-events:none}
+.frame img{width:100%;height:100%;object-fit:cover}
+.frame .cap{position:absolute;left:0;right:0;bottom:0;padding:40px 28px 22px;color:#fff;background:linear-gradient(transparent,rgba(8,20,48,.75));font-size:14px}
+.frame .ph{position:absolute;inset:0;display:grid;place-items:center;color:rgba(255,255,255,.9);font-family:var(--serif);font-size:22px;text-align:center;padding:24px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:4px;border:1px solid var(--navy);background:var(--navy);color:#fff;text-decoration:none;font-weight:500;cursor:pointer;font-size:15px;line-height:1.3}
+:root[data-theme="dark"] .btn, .btn{color:#fff}
+.btn:hover{background:var(--navy-deep);border-color:var(--navy-deep)}
+.btn.line{background:transparent;color:var(--navy)}
+.btn.line:hover{background:var(--mist)}
+.btn.small{padding:7px 14px;font-size:14px}
+.btn.danger{background:transparent;color:var(--danger);border-color:var(--danger)}
+.btn[disabled]{opacity:.5;cursor:default}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn{background:#2C5BA8;border-color:#2C5BA8}:root:not([data-theme="light"]) .btn.line{background:transparent;color:var(--navy);border-color:var(--navy)}}
+
+/* home sections */
+section.block{padding:72px 0}
+section.block.tint{background:var(--mist)}
+.h2{font-family:var(--serif);font-size:30px;font-weight:700;color:var(--navy);margin:0 0 8px;letter-spacing:-.01em}
+.h2-sub{color:var(--ink-soft);margin:0 0 32px}
+.head-row{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:24px}
+.head-row .h2{margin:0}
+.more{font-size:14px;color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px}
+.more:hover{color:var(--navy);border-color:var(--navy)}
+
+.quick{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--paper)}
+.quick ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,1fr)}
+.quick li+li{border-left:1px solid var(--line)}
+.quick a{display:flex;flex-direction:column;align-items:center;gap:8px;padding:26px 8px;text-decoration:none;font-size:15px;font-weight:500;color:var(--ink)}
+.quick a:hover{background:var(--mist);color:var(--navy)}
+.quick svg{width:30px;height:30px;stroke:var(--navy);fill:none;stroke-width:1.5}
+
+.two{display:grid;grid-template-columns:1.4fr 1fr;gap:48px}
+.list{list-style:none;margin:0;padding:0;border-top:2px solid var(--navy)}
+.list li{border-bottom:1px solid var(--line)}
+.list a{display:flex;gap:16px;align-items:baseline;padding:15px 4px;text-decoration:none}
+.list a:hover .t{color:var(--navy);text-decoration:underline}
+.list .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.list .d{font-size:14px;color:var(--ink-soft);flex-shrink:0;font-variant-numeric:tabular-nums}
+.event{border:1px solid var(--line);border-top:4px solid var(--brass);padding:28px;background:var(--paper)}
+.event h3{font-family:var(--serif);font-size:22px;color:var(--navy);margin:6px 0 14px}
+.event dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:15px}
+.event dt{color:var(--ink-soft)}
+.event dd{margin:0}
+.event .tag{font-size:13px;color:var(--brass);font-weight:700}
+
+/* timeline ribbon (signature) */
+.ribbon{background:var(--navy-deep);color:#E8EDF6;padding:80px 0 72px;position:relative;overflow:hidden}
+.ribbon .h2{color:#fff}
+.ribbon .h2-sub{color:#B9C6DE}
+.rail{display:grid;grid-template-columns:repeat(7,1fr);position:relative;margin-top:44px}
+.rail::before{content:"";position:absolute;left:0;right:0;top:9px;height:1px;background:rgba(210,179,120,.6)}
+.rail .stop{position:relative;padding-top:34px;padding-right:18px}
+.rail .stop::before{content:"";position:absolute;top:2px;left:0;width:15px;height:15px;border-radius:50%;background:var(--navy-deep);border:2px solid #D2B378}
+.rail .stop.now::before{background:#D2B378}
+.rail .yr{font-family:var(--serif);font-size:32px;color:#fff;line-height:1}
+.rail .tx{font-size:14px;color:#B9C6DE;margin-top:10px}
+
+.pres-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:20px}
+.pres{text-align:center}
+.pres .ph{width:96px;height:120px;margin:0 auto 10px;background:var(--mist2);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--serif);font-size:30px;color:var(--navy);overflow:hidden}
+.pres .ph img{width:100%;height:100%;object-fit:cover}
+.pres b{display:block;font-family:var(--serif);font-size:17px}
+.pres span{display:block;font-size:13px;color:var(--ink-soft)}
+.pres .n{color:var(--brass);font-weight:700;font-size:13px}
+
+.gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}
+.gal-item{text-decoration:none;display:block}
+.gal-item .im{aspect-ratio:4/3;background:var(--mist2);overflow:hidden;border-radius:3px}
+.gal-item img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.gal-item:hover img{transform:scale(1.04)}
+.gal-item .t{margin-top:10px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gal-item .d{font-size:13px;color:var(--ink-soft)}
+
+/* sub pages */
+.sub-hero{background:var(--mist);border-bottom:1px solid var(--line)}
+.sub-hero .wrap{padding-top:52px;padding-bottom:44px}
+.crumb{font-size:13px;color:var(--ink-soft);margin-bottom:10px}
+.crumb a{text-decoration:none}
+.sub-hero h1{font-family:var(--serif);font-size:clamp(28px,3.6vw,40px);color:var(--navy);margin:0}
+.sub-layout{display:grid;grid-template-columns:220px 1fr;gap:56px;padding-top:48px;padding-bottom:96px}
+.lnb{position:sticky;top:110px;align-self:start}
+.lnb h2{font-family:var(--serif);font-size:20px;color:var(--navy);margin:0 0 12px;padding-bottom:12px;border-bottom:2px solid var(--navy)}
+.lnb ul{list-style:none;margin:0;padding:0}
+.lnb a{display:block;padding:10px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink-soft);font-size:15px}
+.lnb a:hover{color:var(--navy)}
+.lnb a.on{color:var(--navy);font-weight:700}
+.content{min-width:0}
+.prose{max-width:46em}
+.prose p{margin:0 0 1.1em}
+.prose h3{font-family:var(--serif);color:var(--navy);font-size:22px;margin:2em 0 .6em}
+.letter{font-family:var(--serif);font-size:17px;line-height:2;max-width:40em}
+.letter .open{font-size:24px;color:var(--navy);font-weight:600;margin-bottom:1.2em}
+.letter .sign{margin-top:2.4em;text-align:right;font-weight:600;color:var(--navy)}
+.letter strong{color:var(--harbor)}
+.quote-side{display:grid;grid-template-columns:1fr 240px;gap:48px;align-items:start}
+.quote-side aside{border-left:1px solid var(--brass);padding-left:24px;font-family:var(--serif);color:var(--ink-soft);font-size:15px}
+
+table.tbl{width:100%;border-collapse:collapse;font-size:15px}
+.tbl-wrap{overflow-x:auto}
+table.tbl th,table.tbl td{border-bottom:1px solid var(--line);padding:12px 10px;text-align:left;vertical-align:top}
+table.tbl thead th{border-top:2px solid var(--navy);background:var(--mist);font-weight:700;color:var(--navy);white-space:nowrap}
+table.tbl td.num,table.tbl th.num{text-align:center;white-space:nowrap}
+.note{font-size:14px;color:var(--ink-soft);background:var(--mist);border-left:3px solid var(--brass);padding:12px 16px;margin:20px 0}
+
+.history{position:relative;margin:0;padding:0;list-style:none}
+.history .yr-group{display:grid;grid-template-columns:110px 1fr;gap:24px;padding:18px 0;border-top:1px solid var(--line)}
+.history .yr{font-family:var(--serif);font-size:26px;color:var(--navy);line-height:1.1}
+.history ul{list-style:none;margin:0;padding:0}
+.history li{display:grid;grid-template-columns:56px 1fr;gap:12px;padding:3px 0}
+.history li .d{color:var(--brass);font-variant-numeric:tabular-nums;font-size:15px}
+.decade{font-family:var(--serif);font-size:15px;color:var(--brass);margin:36px 0 4px;font-weight:600}
+
+.org{display:flex;flex-direction:column;align-items:center;gap:0}
+.org .lvl{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;position:relative;padding:22px 0}
+.org .lvl+.lvl::before{content:"";position:absolute;top:0;left:50%;height:22px;width:1px;background:var(--line)}
+.org .node{border:1px solid var(--line);background:var(--paper);padding:12px 18px;text-align:center;min-width:140px}
+.org .node .r{font-size:13px;color:var(--ink-soft)}
+.org .node .p{font-family:var(--serif);font-weight:600;font-size:17px}
+.org .node .w{font-size:12px;color:var(--ink-soft)}
+.org .node.top{background:var(--navy);border-color:var(--navy);color:#fff}
+.org .node.top .r,.org .node.top .w{color:#C9D6EE}
+.org .group{border:1px dashed var(--line);padding:14px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:100%}
+.org .group-t{width:100%;text-align:center;font-size:13px;color:var(--brass);font-weight:700}
+
+.portrait{width:100%;max-width:220px;aspect-ratio:4/5;background:var(--mist2);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--serif);font-size:56px;color:var(--navy);overflow:hidden;margin-bottom:18px}
+.portrait img{width:100%;height:100%;object-fit:cover}
+details.orig{margin-top:40px;border-top:1px solid var(--line)}
+details.orig summary{cursor:pointer;padding:14px 4px;color:var(--ink-soft);font-size:15px}
+details.orig summary:hover{color:var(--navy)}
+details.orig img{margin:8px auto 0;border:1px solid var(--line);max-width:100%}
+.rules details{border-top:1px solid var(--line)}
+.rules details:last-child{border-bottom:1px solid var(--line)}
+.rules summary{cursor:pointer;padding:18px 4px;font-family:var(--serif);font-size:19px;color:var(--navy);font-weight:600;list-style:none;display:flex;justify-content:space-between}
+.rules summary::after{content:"+";color:var(--brass);font-size:22px;line-height:1}
+.rules details[open] summary::after{content:"−"}
+.rules .body{padding:0 4px 28px}
+.rules .ch{font-family:var(--serif);font-weight:700;color:var(--navy);margin:22px 0 8px;font-size:17px}
+.rules .ar{margin:6px 0}
+.rules .ar b{color:var(--ink)}
+
+/* boards */
+.board-tools{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.board-tools form{display:flex;gap:8px}
+.input,select.input,textarea.input{border:1px solid var(--line);background:var(--paper);border-radius:4px;padding:10px 12px;width:100%}
+.input:focus{border-color:var(--harbor);outline:none;box-shadow:0 0 0 3px rgba(58,115,184,.18)}
+table.board{width:100%;border-collapse:collapse}
+table.board th{border-top:2px solid var(--navy);border-bottom:1px solid var(--line);padding:12px 8px;font-size:14px;color:var(--navy);background:var(--mist)}
+table.board td{border-bottom:1px solid var(--line);padding:13px 8px;font-size:15px}
+table.board td.c{text-align:center;color:var(--ink-soft);font-size:14px;white-space:nowrap}
+table.board a{text-decoration:none}
+table.board a:hover{text-decoration:underline;color:var(--navy)}
+table.board tr.pin td{background:rgba(169,133,68,.07)}
+.badge{display:inline-block;font-size:12px;padding:1px 8px;border-radius:20px;background:var(--brass-soft);color:#6E5524;margin-right:6px;vertical-align:1px}
+.cnt{color:var(--harbor);font-size:13px;margin-left:4px}
+.pager{display:flex;justify-content:center;gap:4px;margin-top:28px}
+.pager button{min-width:36px;height:36px;border:1px solid var(--line);background:var(--paper);cursor:pointer;border-radius:4px}
+.pager button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.empty{padding:56px 16px;text-align:center;color:var(--ink-soft);border-top:2px solid var(--navy);border-bottom:1px solid var(--line)}
+.empty p{margin:0 0 16px}
+
+.post-h{border-top:2px solid var(--navy);border-bottom:1px solid var(--line);padding:20px 4px}
+.post-h h2{font-family:var(--serif);font-size:24px;margin:0 0 8px;color:var(--ink)}
+.post-h .meta{font-size:14px;color:var(--ink-soft);display:flex;gap:18px;flex-wrap:wrap}
+.post-b{padding:32px 4px;border-bottom:1px solid var(--line);white-space:pre-wrap;line-height:1.85;overflow-wrap:anywhere}
+.post-imgs{display:grid;gap:16px;margin-top:24px;white-space:normal}
+.post-imgs img{max-height:80vh;width:auto;margin:0 auto;border-radius:3px}
+.legacy{white-space:normal;margin-top:20px;font-size:14px}
+.legacy a{color:var(--harbor)}
+.post-actions{display:flex;gap:8px;justify-content:space-between;padding:16px 0;flex-wrap:wrap}
+.comments{margin-top:28px}
+.comments h3{font-size:17px;margin:0 0 12px}
+.cmt{border-bottom:1px solid var(--line);padding:14px 4px}
+.cmt .m{font-size:13px;color:var(--ink-soft);display:flex;gap:12px;align-items:center}
+.cmt .m button{background:none;border:0;color:var(--danger);cursor:pointer;font-size:13px;padding:0}
+.cmt p{margin:6px 0 0;white-space:pre-wrap}
+
+.form{max-width:560px}
+.form.wide{max-width:none}
+.field{margin-bottom:18px}
+.field label{display:block;font-weight:500;margin-bottom:6px;font-size:15px}
+.field .hint{font-size:13px;color:var(--ink-soft);margin-top:4px}
+.field .req{color:var(--danger)}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14px}
+.check input{margin-top:5px}
+.consent{border:1px solid var(--line);background:var(--mist);padding:14px 16px;font-size:13px;color:var(--ink-soft);max-height:150px;overflow:auto;margin-bottom:10px}
+.err{color:var(--danger);font-size:14px;margin:10px 0}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.thumbs div{position:relative}
+.thumbs img{width:90px;height:90px;object-fit:cover;border-radius:3px;border:1px solid var(--line)}
+.thumbs button{position:absolute;top:2px;right:2px;background:rgba(0,0,0,.6);color:#fff;border:0;border-radius:50%;width:22px;height:22px;cursor:pointer;line-height:1}
+.auth-box{max-width:440px;margin:0 auto;border:1px solid var(--line);border-top:3px solid var(--navy);padding:36px 32px;background:var(--paper)}
+.auth-box h2{font-family:var(--serif);color:var(--navy);margin:0 0 6px;font-size:26px}
+.auth-box .sub{color:var(--ink-soft);margin:0 0 24px;font-size:15px}
+.auth-box .alt{text-align:center;font-size:14px;margin-top:18px;color:var(--ink-soft)}
+
+.classes{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:8px}
+.classes a{display:block;text-align:center;padding:12px 0;border:1px solid var(--line);text-decoration:none;font-variant-numeric:tabular-nums;border-radius:3px}
+.classes a:hover{border-color:var(--navy);color:var(--navy);background:var(--mist)}
+
+.setup-banner{background:#FFF7E6;color:#6B4E12;border-bottom:1px solid #F0D9A8;font-size:14px}
+.setup-banner .wrap{padding-top:10px;padding-bottom:10px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .setup-banner{background:#3A3322;color:#F2E2BC;border-color:#5A4B2A}}
+
+footer.site{background:var(--navy-deep);color:#AFBCD6;font-size:14px;padding:48px 0 40px}
+footer.site .wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:32px}
+footer.site strong{color:#fff;font-family:var(--serif);font-size:18px;display:block;margin-bottom:10px}
+footer.site p{margin:4px 0}
+footer.site a{color:#D8E2F4}
+footer.site .links{display:flex;gap:18px;flex-wrap:wrap;justify-content:flex-end;align-content:flex-start}
+
+.toast{position:fixed;left:50%;bottom:calc(28px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:12px 22px;border-radius:4px;font-size:15px;z-index:100;opacity:0;transition:opacity .25s;pointer-events:none}
+.toast.show{opacity:1}
+.loading{padding:40px;text-align:center;color:var(--ink-soft)}
+
+@media (max-width: 960px){
+  nav.gnb{display:none;position:absolute;left:0;right:0;top:100%;background:var(--paper);border-bottom:1px solid var(--line);max-height:75vh;overflow:auto}
+  nav.gnb.open{display:block}
+  nav.gnb>ul{flex-direction:column;gap:0;padding:8px 24px 20px}
+  nav.gnb>ul>li>a{padding:14px 0;border-bottom:1px solid var(--line)}
+  nav.gnb>ul>li>a.on{box-shadow:none;color:var(--navy)}
+  nav.gnb .sub{position:static;transform:none;display:block;border:0;box-shadow:none;padding:4px 0 8px 12px}
+  nav.gnb .sub a{padding:6px 0}
+  .menu-btn{display:block}
+  .hero .wrap{grid-template-columns:1fr;gap:36px;padding-top:44px;padding-bottom:52px}
+  .two{grid-template-columns:1fr}
+  .quick ul{grid-template-columns:repeat(3,1fr)}
+  .quick li:nth-child(4){border-left:0}
+  .quick li:nth-child(n+4){border-top:1px solid var(--line)}
+  .rail{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:210px;overflow-x:auto;padding-bottom:12px}
+  .sub-layout{grid-template-columns:1fr;gap:28px}
+  .lnb{position:static}
+  .lnb ul{display:flex;flex-wrap:wrap;gap:6px}
+  .lnb a{border:1px solid var(--line);border-radius:20px;padding:6px 14px;font-size:14px}
+  .lnb a.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .quote-side{grid-template-columns:1fr}
+  footer.site .wrap{grid-template-columns:1fr}
+  footer.site .links{justify-content:flex-start}
+  table.board .hide-m{display:none}
+}
+@media (max-width: 520px){
+  .brand .name strong{font-size:16px}
+  .history .yr-group{grid-template-columns:1fr;gap:6px}
+  .auth-box{padding:28px 20px}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<a href="#main" class="sr">본문 바로가기</a>
+<div id="setupBanner"></div>
+<div class="util"><div class="wrap" id="utilBar"></div></div>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="#/">
+      <span class="mark" id="brandMark">KS</span>
+      <span class="name"><small>경성전자고등학교</small><strong>총동창회</strong></span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="gnb">메뉴</button>
+    <nav class="gnb" id="gnb" aria-label="주 메뉴"></nav>
+  </div>
+</header>
+<main id="main"></main>
+<footer class="site">
+  <div class="wrap">
+    <div>
+      <strong>경성전자고등학교 총동창회</strong>
+      <p>(47258) 부산광역시 부산진구 가야대로 749-1, 1501호 (부전동, 신동아오피스텔)</p>
+      <p>전화 051-321-2233 &nbsp; 팩스 051-313-2253 &nbsp; 이메일 <a href="mailto:ks3212233@hanmail.net">ks3212233@hanmail.net</a></p>
+      <p style="margin-top:14px">© 1966–<span id="yr"></span> 경성전자고등학교 총동창회</p>
+    </div>
+    <div class="links">
+      <a href="#/privacy">개인정보처리방침</a>
+      <a href="#/location">오시는 길</a>
+      <a href="https://school.busanedu.net/kse-h/main.do" target="_blank" rel="noopener">경성전자고등학교</a>
+    </div>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const DATA = {"greet": "사랑하는 동문 여러분!\n그동안 어려운 여건 속에서도 온갖 고난과 역경을\n무릅쓰고 총동창회를 이렇게 훌륭하게 이끌어 오신\n역대 회장님과 선·후배 동문님들께도 진심으로 감사드립니다.\n\n모교는 우리들의 영원한 마음의 고향이자 추억의 발원지이며 젊음을 형성해준\n소중한 곳이며 우리는 동문회를 통해서 앞에서 끌어 주고 뒤에서 밀어주는 동력을\n형성하고 서로의 기쁨과 고난에 동참할 수 있는 우정을 돈독하게 합니다.\n\n비록 몸집은 작지만, 우리 동문회가 부산의 189개 고등학교 동문회 중 가장 활기차게\n운영되는 동문회로 자타가 공인하고 있는 것은 여러분의 적극적인 참여와 우리 모교의\n빛나는 전통인 화합과 단결에서 이루어진 성과라고 생각합니다.\n\n경성인의 단결된 모습을 활짝 열어놓으신 업적과 역량을 이어받아 총동창회를\n어느 동창회 못지않게 훌륭한 동창회를 만들어 놓도록 노력하겠습니다.\n\n이 모든 것이 제 개인으로 이루어질 수 없으므로 동문 여러분께서도 아낌없는\n성원과 참여로 이루어질 수 있다고 보여 집니다. 많은 격려와 협조를 부탁드립니다.\n\n다시 한번 감사의 말씀을 드리며 동문 여러분의 무궁한 발전과 번영을 기원합니다.\n감사합니다.\n\n제15대 총동창회장 박두경(18회)", "principal": "오랜 고목에 싹이 돋아나고 바람결에 따사로운 기운이 감도는 봄을 맞이했습니다.\n고등학교를 졸업한 지 수많은 시간이 흘렀지만 학교를 잊지 않고 많은 관심과 지원을\n아끼지 않으시는 동문 여러분들을 뵐 때면 감동이 벅차오릅니다.\n보여주신 관심과 애정이 우리 학교를 더욱 발전시키는 밑거름이 됨을 잘 알고 있습니다.\n지난 시간 동안 대한민국 산업발전을 위해 발군의 노력과 큰 성과를 이뤄내신 여러분들을\n우리 모두는 항상 자랑스럽게 생각합니다.\n\n학교는 교육부로부터 인공지능 선도학교로 선정되어 우수한 활동을 펼치며 교육감 표창을\n수상하였고, 선생님들의 열정적인 지도와 학생들의 노력으로 **인공지능해커톤, 로봇경진대회,\n창업경진대회 등 다수의 대회에서 1위를 차지하는 등 뛰어난 성과**를 거두었고, **부산지방기능\n경기대회 산업제어 분야에서 금메달을 획득하는 영예**를 안았습니다. 더불어, 전교직원의\n노력으로 본교가 특성화고 최초로 국제학교 인증을 받아 교육계의 큰 주목을 받고 있습니다.\n학교는 작년 한 해 동안 많은 정부 부처의 사업에 참여하여 다양한 분야의 교육 활동으로\n그 우수성을 인정받았으며 올해도 디지털 혁신 선도학교로 선정되어 학생들의 성장과\n학교 발전에 기여하고 있습니다. 이러한 성과는 동문 여러분의 든든한 후원과 사회에서의\n지지로 이루어진 것임을 깊이 감사드립니다.\n\n함께하는 모든 분들의 노력과 사랑이 우리 학교를 더욱 빛나게 만들어주고 있습니다.\n앞으로도 지속적인 관심과 지원을 부탁드리며 여러분의 뜻깊은 도움에 깊이 감사드립니다.\n학교와 함께하는 여정에서 여러분의 참여와 도움을 기대합니다.\n\n경성전자고 동문 여러분!\n항상 모교의 교육 활동에 많은 관심과 도움 주시는 총동창회 모든 동문님들께 학교장으로\n다시 한번 감사드리며 앞날에 무궁한 행복과 발전을 기원합니다.\n\n경성전자고등학교 14대 학교장 하민용", "rules": [{"title": "경성전자고등학교 총동창회 회칙", "body": "제 1 장 총 칙\n제 1 조(명 칭) 본회는 경성전자고등학교 총동창회(이하 본회)라 칭한다.\n제 2 조(목 적) 본회는 회원의 화합과 결속을 도모하며, 모교의 발전과 후배들의 장학지원 사업에 이바지함을 목적으로 한다.\n제 3 조(사무소) 본 회의 사무소는 부산광역시 행정구역내에 둔다.\n\n제 2 장 회 원\n제 4 조(자 격) 본 회의 회원은 경성전자고등학교 졸업한 자와 1년 이상 수학자(이사회 심의 결정)로 한다.\n제 5 조(권리와 의무) 본 회의 회원은 회칙을 준수하여야 하며 선거권, 피선거권이 있고 회비납부 및 회의에 참석할 의무가 있다.\n\n제 3 장 임 원\n제 6 조(임원의 구성) 본회에 다음의 임원을 둔다.\n1. 회 장 : 1 명  2. 감 사 : 2 명\n3. 수석부회장 : 3 명  4. 상임부회장 : 1 명\n5. 부회장 : 약간 명  6. 사무국 : 사무국장 1명\n제 7 조(임원의 선출) 본 회 회장, 수석부회장, 감사는 이사회에서 추대 선출하여 총회에서 승인을 받으며, 그 외 임원은 회장이 선임하여 임원회의 승인을 받는다.\n제 8 조(임원의 결원 선출) 본 회 회장은 임원 결원이 발생 시 이를 재위촉하며, 그 임기는 전임자의 잔여 임기로 한다.\n제 9 조(임원의 임기) 본 회 임원의 임기는 1년으로 하며 연임할 수 있다.\n제 10 조(임원의 임무)\n1. 회장은 본회를 대표하여 회무를 총괄하고 이사회 및 총회의 의장이 된다.\n2. 부회장은 회장을 보좌하고, 회장 유고시 수석부회장이 직무를 대행한다.\n3. 감사는 회무 및 재정에 관한 업무를 감사한다.\n4. 사무국장 및 각 부·차장은 본 회의 제반 업무를 담당한다.\n\n제 4 장 이사회 및 자문위원회\n제 11 조(이사회, 임원회)\n1. 이사회는 최고 의결기관으로 구성과 의결은 회장단, 각 기수 회장, 각 지역·직장동문회, 동호회 회장으로 구성되며, 본 회 회장은 이사회의 의장이 된다\n2. 이사회 소집은 회장이 필요에 따라 소집할 수 있으며, 이사 1/2이상의 요청이 있을시 회장이 소집한다.\n3. 이사회는 다음 사항을 의결한다.\n① 회칙 개정안 변경  ② 사업계획 및 예산, 결산에 관한 사항\n③ 본 회 회장, 수석부회장, 감사 선출 및 보선  ④ 기타 총회에 제출할 안건 심의\n4. 임원회는 다음 사항을 의결한다.\n① 이사회에 부의할 사항의 사전 심의\n② 동창회 발전에 필요한 사항의 사전 심의\n③ 임원회는 반기별로 개최하며 회장이 필요시 임시임원회를 개최할 수 있다.\n④ 기타 사항\n제 12 조(고문 및 자문위원) 본회는 고문 및 자문위원을 둘 수 있으며 이사회의 동의를 얻어 이를 추대 또는 위촉하고 회장단의 자문에 응하며 본회의 각종 회의에 참석하여 발언 할 수 있다.\n제 13 조(사무국)\n1. 본 회의 회무 및 재무를 집행하기 위하여 사무국을 두고 이를 회장이 관장한다.\n2. 사무국 직원(사무국 운영규정)은 사무국장의 추천으로 회장이 임용한다.\n\n제 5 장 회 의\n제 14 조(회의의 구분)\n1. 본 회의 회의는 정기총회, 임시총회, 이사회, 임원회로 구분한다.\n2. 본 회의 모든 회의의 의안은 출석회원의 과반수로 의결되고, 가부 동수일 때에는 의장이 이를 결정한다.\n제 15 조(총 회)\n1. 본 회의 정기총회는 매년 1월에 개최하며 임시총회는 회장이 필요하다고 인정될 때, 이사회 1/2이상의 요청이 있을시 회장이 소집한다.\n2. 회장은 정기 및 임시총회의 의장이 되고 출석인원 과반수이상의 찬성으로 의결한다.\n3. 정기총회는 다음 사항을 의결한다.\n① 회칙 개정에 관한 사항  ② 선출직 임원에 관한 사항\n③ 예산·결산 편성에 관한 사항  ④ 사업계획 수립 및 기타에 관한 사항\n\n제 6 장 재 정\n제 16 조(재 원) 본 회의 재원은 다음으로 충당한다.\n1. 회비, 입회비, 의무금(이사회), 찬조금, 사업수익, 기타 수입으로 한다.\n2. 회비 및 의무금은 이사회의 결의로 정한다.\n3. 졸업생은 동창회 입회비를 의무적으로 납부하여야 하며, 금액은 이사회에서 정한다.\n4. 의무금은 3개월 내 납부를 원칙으로 한다.\n제 17 조(회계년도) 본 회의 회계연도는 매년 1월 1일부터 12월 31일까지로 한다.\n제 18 조(결산보고) 본 회의 회장은 매 회계연도마다 결산 보고서를 작성하여 감사의 승인과 이사회의 의결을 받으며, 감사는 총회에서 보고한다.\n\n제 7 장 동 기 회 및 지 부\n제 19 조(동기회) 매 졸업 회기마다 동기회를 의무적으로 구성해야 하며 본회에 입회하여야 한다.\n1. 지역, 직장, 대학 내와 동호회 동문회(15명 이상)를 구성할 수 있다.\n2. 각 동기·동문회 조직 및 지부 회칙의 미비사항은 본 회의 회칙에 준한다.\n3. 각 동기·동문회 조직 시 본 회에 반드시 통보하여야 하며, 본 회의 산하조직 안에 둔다.\n4. 각 동기, 동문회 회장은 본 회의 당연직 이사가 된다.\n\n제 8 장 상 벌\n제 20 조(시 상) 본회는 다음에 해당하는 자에게 이사회의 결의로 시상할 수 있다.\n1. 본 회의 발전과 모교 발전에 현저한 공로가 있는 자\n2. 모교 졸업 예정자로서 성적이 우수하고 타의 모범이 된 자\n제 21 조( 벌 ) 본회와 모교의 명예를 훼손하고 재정적 손실을 끼친 자는 이사회의 결의로 다음과 같이 벌 할 수 있다.\n1. 제5조의 권리를 박탈  2. 공개 사과  3. 배상 조치\n\n제 9 장 장 학 위 원 회\n제 22 조(목 적) 본회는 후배육성을 위하여 장학위원회를 둔다.\n제 23 조(명 칭) 장학위원회 명칭은 경성전자고등학교 총동창회 장학위원회(이하 위원회)라 칭한다.\n제 24 조(위원의 구성)\n1. 위원장 : 1 명  2. 부위원장 : 1 명\n3. 간 사 : 1 명  4. 위 원 : 약간 명\n제 25 조(임무 및 위원선임)\n1. 위원장은 본 동창회 회장으로 하고 본 위원회를 총괄한다.\n2. 부위원장은 본 동창회수석부회장으로 하고 위원장 유고시 수석부회장이 직무를 대행한다.\n3. 간사는 위원장이 임명하고 본 위원회 업무 및 사무일체를 관장한다.\n4. 위원은 본 동창회 이사 및 임원중에서 회장이 위촉한 자로 구성하며, 위원회 제반 사항을 의결한다.\n\n제 10 장 부 칙\n제 1 조 본 회칙에 명시되지 않은 사항은 시행세칙(관련 규정)과 통상 관례에 따른다. 다만, 본회의 특정한 업무 추진을 위하여 해당 목적의 위원회를 둘 수 있으며 제반사항은 이사회의 심의와 의결을 통과하여야 한다.\n제 2 조(시행일) 본 회칙은 개정한 날부터 시행한다.\n1차 개정 : 1988. 5. 11.  2차 개정 : 1999. 11. 11.  3차 개정 : 2002. 5. 11.\n4차 개정 : 2004. 4. 25.  5차 개정 : 2005. 4. 23.  6차 개정 : 2007. 4. 22\n7차 개정 : 2008. 4. 30.  8차 개정 : 2009. 4. 18.  9차 개정 : 2011. 4. 23\n10차 개정 : 2013. 4. 20.\n11차 개정 : 2019. 1. 19."}, {"title": "사무국 운영규정", "body": "본 운영규정은 경성전자고등학교 총동창회(이하'본회'라 칭 한다) 사무국 운영에 적용한다.\n제 1 조 (목 적)\n1. 회장의 명에 의하여 본회의 업무전반에 대한 사무적 업무의 실행집무\n2. 기수별, 직장별, 지역별 및 기타 동창회 관련업무의 효과적인 집행\n3. 각종 분담금의 징수 예치 지출에 관련된 업무의 수행\n4. 본회 사업목적 달성을 위한 제업무의 기획 집행\n5. 예산 및 결산에 관련된 업무\n6. 회장 및 이사회에서 특별이 지시된 업무의 수행\n제 2 조 (사무국의 주요업무)\n1. 사무국의 주요업무중 제1조의 사항에 대하여 관련부서의 계획 및 승인의 절차를 준수하고 관련 자료를 회의록 및 기타 문서로 보관한다.\n2. 총동창회의 주요 행사에 대하여 행사 전, 후에 이사회의 보고와 결산을 통하여 추진된 행사의 평가를 실시하여 관련 문서로 보관한다.\n제 3 조 (구 성)\n사무국장을 포함한 사무부장, 다수의 부, 차장과 유급제 간사를 둘 수 있다.\n제 4 조 (조직 및 업무분장)\n1. 사무국장 : 본 회 사무국의 업무 총괄. 회장단 업무 수행 지원, 원로 자문 위원회 운영 관리\n2. 사무부장 : 본 회 사무국의 주요업무 총괄 지원(집행), 사무국장 업무대행\n3. 총 무 부 : 본 회의 대, 내외적인 행사 업무지원 및 사무국 관리업무. 이사회, 정기총회, 한마음체육대회, 송년의 밤, 임원회의 개최 관련업무(기획)추진, 행사일정표 관리, 사무국 운영규정 작성\n4. 재 무 부 : 본 회의 재정 및 회계업무 총괄. 임원진, 이사회 등 의무금 관리 및 협찬, 찬조금 관리, 재정 관리규정 작성\n5. 섭 외 부 : 본 회의 행사 섭외, 의전 관련 제반업무. 동문경조사 및 임원경조사 관리, 모교와 업무 연락과 협조 처리, 장학위원회 운영규정 작성\n6. 조 직 부 : 본 회의 사업계획에 따른 대, 내외적인 관련 업무총괄. 동기회결성 추진, 동문 주소록 관리 및 기수, 지역, 직장 동문회 행사참여, 동문조직 활성화업무\n7. 홍 보 부 : 본 회의 대, 내의 각종 홍보 및 홈페이지 관리업무. 사이버 동창회보 발간, 각종 행사 인사문(회장) 작성 및 홈페이지 규정 작성\n8. 간 사 : 본 회 사무국의 제반 사무(회계)업무처리 및 각 동기회, 지역동문회, 직장 동문회 업무지원. 행사와 모임 연락\n제 5 조 (간 사)\n1. 사무국 간사는 유급제로 하며 발생되는 급여는 총동창회 재정으로 충당한다.\n2. 간사는 사무국의 시설 및 비품을 철저히 관리하며 재무부의 관리하에 회계업무를 수행한다.\n3. 간사는 동창회 각 부서의 업무를 총괄적으로 지원과 협조한다.\n제 6 조 (회 의)\n1. 사무국장은 이사회 및 주요행사 이전에 회의를 소집할 수 있으며 사무국 인원의 과반수 요청이 있을 때 사무국 회의를 개최 할 수 있다.\n2. 사무국장은 회의의 의장이 되고 재적인원의 과반수 출석과 출석인원의 과반수이상의 결의로 의결한다.\n3. 사무국장의 유보 시 사무부장이 권한을 위임 받아 업무를 수행 한다.\n제 7 조 (회 계)\n1. 회비, 입회비, 의무금(이사회), 찬조금, 사업수익, 기타 잡수익의 출납에 관련된 업무는 재무부에서 관장하며 회계 관련 업무를 수행한다.\n2. 지출에 관한 사항은 지출결의서 작성에 의하여 사무국장 및 회장의 승인(업무 위임 전결규정 준수)후 지출함을 원칙으로 한다.(재정관리규정 별도 작성)\n단. 50만원 이하의 지출은 재무부장의 권한으로 선 지출 후 승인을 득할 수 있다.\n3. 회계연도는 매년 4월 1일부터 익년 3월말까지로 한다.\n제 8 조 (경조사)\n1. 경조사의 대상은 전직회장, 전직 사무국장 현재 구성된 회장단, 이사회 및 사무국직원과 각 기수, 동문회의 사무국장(총무)로 규정한다.\n2. 총동창회에 지대한 공로가 있는 자는 회장이 판단하여 선 조치하고 이사회 시 승인을 득해야 한다.\n3. 경조사의 범위는 본인, 직계가족의(부모, 자녀)조사, 동문의 사업체의 설립 및 이전 등의 경사로 정한다.\n4. 경조사의 경우 총동창회장 명의로 3단 화환 및 조화로 한다.\n제 9 조 (상 및 벌)\n1. 본 회의 발전과 모교 발전에 현저한 공로가 있는 자는 공적조사를 통하여 이사회에 상정한다.\n2. 본 회와 모교의 명예를 훼손하고 재정적 손실을 끼친 자는 조사를 통하여 이사회에 상정한다.\n제 10 조(부칙) 본 운영 규정은 발표일로부터 시행한다.\n- 제1차 제정 : 2004. 09. 03(초안)  - 제2차 개정 : 2005. 05. 25\n- 제3차 개정 : 2009. 06. 24  - 제4차 개정 : 2011. 12. 14\n- 제5차 개정 : 2012. 12. 13"}, {"title": "자랑스런 경성인 상 규정", "body": "본 규정은 경성전자고등학교 총동창회(이하\"본회\"라 칭 한다) 자랑스런 경성인 상 규정에(이하\"본규정\"이라 칭 한다) 적용한다.\n제 1 조 (목 적)\n1. 본회의 발전에 지대한 공이 인정되는 동문\n2. 기수별, 직장별, 지역별 및 기타 동창회 관련업무의 탁월한 능력과 발전에 기여한 동문\n3. 모교의 발전에 지대한 공이 인정되는 동문\n제 2 조 (대상)\n1. 정부 조직법에 의거 중앙부처 2급 이상(지방자치단체와 동등한 직위)의 공무원으로 덕망과 존경받는 동문\n2. 정부부처(지방자치단체)를 제외한 이공계, 연예계, 문화예술계, 체육계, 언론계, 학계 등에서 훈·포장을 수상한 동문\n단. 1항, 2항 공히 총동창회와 모교의 발전에 지대한 공로와 헌신적인 노력을 기여한 동문에 한하여 대상을 정한다.\n제 3 조 (추대 절차)\n1. 개인별, 기수별, 직장별, 지역별 동문 50인 이상이 추천한 동문으로 서명 된 서류를 사무국에 접수 하여야 한다.\n2. 접수된 추대동문은 임원회의에 상정하여 심의 의결한다.\n3. 임원회의에서 승인된 추대동문은 고문 및 자문회의의 심의 의결한다.\n4. 고문 및 자문회의의 의결된 추대동문은 이사회에 상정하여 승인을 득한 후 정기 총회에서 시상 한다.\n5. 임원회, 고문 및 자문회의, 이사회에서 부결되면 자동으로 폐기 된다\n6. 접수된 서류는 관련절차를 준수하고 관련 자료를 회의록 및 문서로 보관한다.\n제 4 조 (회의)\n1. 본 규정의 회의는 임원회, 고문 및 자문회의, 이사회로 구분한다.\n2. 본 규정의 모든 회의의 의안은 출석회원의 과반수로 의결되고, 가부 동수일 때에는 의장이 이를 결정한다.\n제 5 조 (구성)\n1. 의장은 본 동창회 회장으로 하고 업무를 총괄한다.\n2. 부의장은 본 동창회 수석 부회장으로 하고 의장 유고시 수석부회장이 직무를 대행한다.\n3. 사무국장은 본 규정에 관련된 업무 및 사무일체를 관장한다.\n제 6 조(부칙) 본 자랑스런 경성인 상 규정은 발표일로부터 시행한다.\n- 제1차 제정 : 2013. 03. 15(초안)"}], "notices": [{"title": "제58차 정기총회 국제신문광고", "date": "2026-03-25", "views": 233, "body": "찬조에 참여하여 주신 동문님들에게 깊은 감사의 말씀을 전합니다", "legacy": ["http://www.ksei.co.kr/v2_board/data/file/notice/2039560608_yGS9JXaZ_KakaoTalk_20260325_B1B9C1A6BDC5B9AE.jpg"]}, {"title": "경성전자고 총동창회 제57차 정기총회 국제신문 광고", "date": "2025-03-06", "views": 840, "body": "경성전자고 총동창회 제57차 정기총회\n*일시및장소:3월 8일(토) 18시, 부산 호텔농심 허심청 2층 대청홀\n많은 참석 바랍니다.\n3월 5일 국제신문 광고입니다.", "legacy": ["http://www.ksei.co.kr/v2_board/data/file/notice/30675724_JENUl7dV_B1B9C1A6BDC5B9AE_C3D6C1BE2832C529.jpg"]}, {"title": "경성전자고 총동창회 제57차 정기총회에 초대합니다.", "date": "2025-02-06", "views": 896, "body": "초 청 장\n\n경성전자고 총동창회 동문님 반갑습니다.\n\n을사년 새해에도 동문 여러분의 가정에 항상 건강과 행복이 가득하시고 더불어 하시는 모든 사업에도 번창과 행운이 늘 함께하시길 기원합니다.\n\n\"2025년 총동창회(제57차) 정기총회\"를 다음과 같이 마련하여 동문 화합과 축제 만남의 장인 정기총회에 동문님을 초청하오니 바쁘시더라도 꼭 참석하여 자리를 빛내 주시기 바랍니다.\n\n1. 행 사 명 : 제57차 정기총회\n2. 일 시 : 2025년 3월 8일(토) 오후 6시\n3. 장 소 : 부산 호텔농심 허심청 2층 대청홀\n4. 행사내용 :\n 1) 1부 : 총동창회 정기총회 기념식\n 2) 2부 : 화합과 축제의장\n5. 연 락 처 : 총동창회 사무국(☎321-2233)\n\n2025년 2월 06일\n\n경성전자고 총동창회 회장 박 두 경", "legacy": []}, {"title": "2025년(제57차) 정기총회 행사, 광고 섭외 요청(협조)", "date": "2025-02-06", "views": 864, "body": "경 성 전 자 고 등 학 교 총 동 창 회\n(http://ksei.co.kr)\n(47258)부산시 부산진구 가야대로 749-1 신동아오피스텔1501호 사무국☎(051)321-2233(FAX)313-2253\n\n문서번호 : 경성25-02-06\n수 신 : 전 동문\n발 신 : 총동창회 사무국\n제 목 : 2025년(제57차) 정기총회 행사, 광고 섭외 요청(협조)\n\n1. 동문님의 사업 번창하시고 건강과 행운이 함께하기를 기원합니다.\n\n2. 그동안 총동창회 발전에 많은 성원과 격려해 주심에 감사드립니다. \"2025년 총동창회(제57차) 정기총회\"를 갖게 되었습니다. 동문 화합과 축제 만남의 장인 정기총회에 각 동문님께서 서로 연락해주시고 소중한 자리에 다 함께 참석하시어 행사를 빛내 주시기 바랍니다.\n\n3. 정기총회는 신문의 매체를 활용하여 최대의 광고 효과를 얻고자 합니다. 또한 이로 인한 동문 업체의 홍보와 동문 간의 업종 교류의 장이 되시길 바라며 신문 광고비 협찬으로 더욱 발전하는 총동창회의 밑거름의 토양이 되어주시길 바랍니다. 동문님의 참여와 성원을 기다립니다.\n\n가. 총동창회 정기총회\n 1) 일 시 : 2025년 3월 8일(토요일) 오후6시\n 2) 장 소 : 부산 호텔농심 허심청 2층 대청홀\n 3) 대 상 : 전 동문님(부부동반)참석\n\n나. 행사 내용\n 1) 1부 : 정기총회 기념식\n 2) 2부 : 화합과 축제의장\n\n다. 신문광고 게재 내용(정기총회 기념지 광고 포함)\n 1) 광고일시 : 2025년 3월 5일(국제신문)\n 2) 광고크기 : 전면광고(업체당 1단 3줄 문자, 사이즈 4*3cm)\n 3) 광 고 료 : 20만원 기본(신청크기에 따라 협의 가능함)\n 4) 광고내용 : 상호 및 직함, 성명(기수), 연락처, 추가 기재사항\n 5) 광고접수 : 2025년 2월 27일까지 총동창회 사무국(T.321-2233)\n\n경 성 전 자 고 등 학 교\n총 동 창 회 회장 박 두 경", "legacy": []}, {"title": "경성전자고 총동창회 제56차 정기총회 국제신문 광고(3월 6일)", "date": "2024-03-06", "views": 1814, "body": "", "legacy": ["http://www.ksei.co.kr/v2_board/data/file/notice/1227822957_w4QOSR7u_B0E6BCBAC0FCC0DAB0EDC3D6C1BEBCF6C1A4.jpg"]}, {"title": "경성전자고 총동창회 제56차 정기총회에 초대합니다.", "date": "2024-02-08", "views": 1828, "body": "초 청 장\n\n경성전자고 총동창회 동문님 반갑습니다.\n\n갑진년 새해에도 동문 여러분의 가정에 항상 건강과 행복이 가득하시고 더불어 하시는 모든 사업에도 번창과 행운이 늘 함께 하시길 기원합니다.\n\n\"2024년 총동창회(제56차) 정기총회\"를 다음과 같이 마련하여 동문화합과 축제 만남의 장인 정기총회에 동문님을 초청하오니 바쁘시더라도 꼭 참석하여 자리를 빛내주시기 바랍니다.\n\n1. 행 사 명 : 제56차 정기총회\n2. 일 시 : 2024년 3월 9일(토) 오후 6시\n3. 장 소 : 부산 호텔농심 허심청 2층 대청홀\n4. 행사내용 :\n 1) 1부 : 총동창회 정기총회 기념식\n 2) 2부 : 화합과 축제의장\n5. 연 락 처 : 총동창회 사무국(☎321-2233)\n\n2024년 2월 8일\n\n경성전자고 총동창회 회장 오 창 훈", "legacy": []}, {"title": "제56차 정기총회 행사, 광고 섭외 요청(협조)", "date": "2024-02-08", "views": 1794, "body": "경 성 전 자 고 등 학 교 총 동 창 회\n(http://ksei.co.kr)\n(47258)부산시 부산진구 가야대로 749-1 신동아오피스텔1501호 사무국☎(051)321-2233(FAX)313-2253\n\n문서번호 : 경성24-02-08\n수 신 : 전 동문\n발 신 : 총동창회 사무국\n제 목 : 2024년(제56차) 정기총회 행사, 광고 섭외 요청(협조)\n\n1. 갑진년 새해에도 동문님의 하시는 일들이 만사형통하시길 빕니다.\n\n2. 그 동안 총동창회 발전에 많은 성원과 격려해 주심에 감사드립니다. \"2024년 총동창회(제56차) 정기총회\"를 갖게 되었습니다. 동문 화합과 축제 만남의 장인 정기총회에 각 동문님께서 서로 연락을 해주시고 소중한 자리에 다 함께 참석하시어 행사를 빛내 주시기 바랍니다.\n\n3. 정기총회는 신문의 매체를 활용하여 최대의 광고 효과를 얻고자 합니다. 또한 이로 인한 동문 업체의 홍보와 동문 간의 업종 교류의 장이 되시길 바라며 신문 광고비 협찬으로 더욱 발전하는 총동창회의 밑거름의 토양이 되어주시길 바랍니다. 동문님의 참여와 성원을 기다립니다.\n\n가. 총동창회 정기총회\n 1) 일 시 : 2024년 3월 9일(토요일) 오후6시\n 2) 장 소 : 부산 호텔농심 허심청 2층 대청홀\n 3) 대 상 : 전 동문님(부부동반)참석\n\n나. 행사 내용\n 1) 1부 : 정기총회 기념식\n 2) 2부 : 화합과 축제의장\n\n다. 신문광고 게재 내용(정기총회 기념지 광고 포함)\n 1) 광고일시 : 2024년 3월 6일(국제신문)\n 2) 광고크기 : 전면광고(업체당 1단 3줄 문자, 사이즈 4*3cm)\n 3) 광 고 료 : 20만원 기본(신청크기에 따라 협의 가능함)\n 4) 광고내용 : 상호 및 직함, 성명(기수), 연락처, 추가 기재사항\n 5) 광고접수 : 2024년 2월 28일까지 총동창회 사무국(T.321-2233)\n\n경 성 전 자 고 등 학 교\n총 동 창 회 회장 오 창 훈", "legacy": []}, {"title": "2023년 총동창회 개인별 발전 연의무금 모금 안내와 협조 요청", "date": "2023-05-25", "views": 1893, "body": "경 성 전 자 고 등 학 교 총 동 창 회\n(http://ksei.co.kr)\n(47258)부산광역시 부산진구 가야대로749-1, 신동아오피스텔1501호\n사무국 ☎(051)321-2233 (FAX)313-2253\n\n문서번호 : 경성23-05-18\n수 신 : 경성동문님 귀하\n발 신 : 총동창회 사무국\n제 목 : 2023년 총동창회 개인별 발전 연의무금 모금 안내와 협조 요청\n\n1. 동문님의 가정에 행복과 하시는 모든 사업에 번창과 행운이 늘 함께하시길 기원합니다.\n\n2. 발전 연의무금은 총동창회의 운영과 모든 행사 및 발전을 위해 소요, 적립되고 있습니다. 또한 동문 개인별 년1회 발전 연의무금 납입은 의무적 사항이며, 총동창회 구성원으로서 자부심을 갖고 많은 참여와 협조로 격려해 주시기 바랍니다.\n\n▣ 2023년 총동창회 개인별 발전 연의무금 모금 계획\n가. 기 간 : 2023년 1월 1일 ~ 2023년 12월 31일\n나. 모금액 : 3만원\n다. 방 법 : 별송 지로용지 금융기관납부 또는 계좌이체\n ([계좌 안내는 사무국 문의]경성전자고 총동창회 입금 가능)\n라. 확 인 : 금융결제원 경유(5일후) 사무국에서 통장 확인\n마. 모금 진행상황 안내 : 총동창회 홈페이지에 수시로 게시(공람)함\n\n※ 참고사항 ⇒ 기타 문의사항은 사무국([계좌 안내는 사무국 문의])으로 전화주세요.\n- 동문기금은 지로용지 또는 부산은행 계좌로 납부 가능합니다.(재정 투명화)\n- [경성전자고등학교 총동창회] 네이버 밴드로 초대합니다.\n \"https://band.us/n/a9ac8eXfL2ebO\"\n\n* 지로 또는 계좌이체 시 졸업기수 및 성명을 꼭 기입 확인 바랍니다.\n\n경 성 전 자 고 등 학 교\n총동창회 회장 오 창 훈", "legacy": []}, {"title": "2023년 경성 동문 가족 봄 야유회 행사 알림(6월 11일)", "date": "2023-05-22", "views": 1859, "body": "경 성 전 자 고 등 학 교 총 동 창 회\n(http://ksei.co.kr)\n(47258)부산광역시부산진구가야대로749-1 신동아오피스텔1501호 사무국☎(051)321-2233(FAX)313-2253\n\n문서번호 : 경성23-04-12\n수 신 : 전 동문\n발 신 : 총동창회 사무국\n제 목 : 경성 동문 가족 봄 야유회 행사 알림\n\n1. 동문님의 하시는 모든 사업에도 번창과 행운이 늘 함께 하시며 항상 건강하고 복된 생활이 충만하시길 빕니다.\n\n2. 코로나로 많은 행사를 하지 못하여 2023년 봄나들이 겸 야유회를 개최하고자 합니다. 많은 동문과 가족들이 함께 즐겁게 즐길 수 있는 야유회가 되도록 준비하겠습니다. 소중한 자리에 다 함께 참석하시어 행사를 빛내 주시기 바랍니다.\n\n가. 경성 동문 가족 봄 야유회\n 1) 일 시 : 2023년 06월 11일(일요일)\n 2) 장 소 : 순천만 국가정원\n - 신동아오피스텔 6시 30분 / 사상 르네시때 7시 출발\n 3) 대 상 : 전 동문님 참석(가족 동반 대환영), 차량 2대(80명 이상)\n 4) 참가비 : 3만원(가족 3만원)\n - 입장료(12,000원/단체), 식사(15,000원), 기념품 제공 등\n * 차량 이동과 입장료 관계로 부득이 1인당 3만원입니다.\n\n※ 차량 이동인 관계로 참석인원을 먼저 파악하고자 합니다.\n밴드 댓글 또는 문자로 참석 여부를 답변 주시면 감사하겠습니다.\n출발 인원이 80명 이상, 행사 진행이 가능한 관계로 필히 참석인원이\n파악이 되어야 합니다. 참석하시고 싶은 동문님은 꼭 연락 부탁드립니다.\n참석인원이 저조하면 행사 진행이 어렵습니다. 감사합니다.\n▶ 김정우(27) 사무국장 [개인 연락처 삭제] / 사무간사 [개인 연락처 삭제] ◀\n\n경 성 전 자 고 등 학 교\n총 동 창 회 회장 오 창 훈", "legacy": []}, {"title": "경성전자고 총동창회 제55차 정기총회(2023.1.28)", "date": "2023-01-26", "views": 1873, "body": "제55차 정기총회 국제 신문 광고", "legacy": ["http://www.ksei.co.kr/v2_board/data/file/notice/1345791429_n8kXbBiu_B0E6BCBAC0FCC0DAB0ED-C3D6C1BEBCF6C1A4.jpg"]}, {"title": "2023년 제55차 정기총회에 초대합니다.", "date": "2023-01-09", "views": 1858, "body": "초 청 장\n\n경성전자고 총동창회 동문님 반갑습니다.\n\n계묘년 새해에도 동문 여러분의 가정에 항상 건강과 행복이 가득하시고 더불어 하시는 모든 사업에도 번창과 행운이 늘 함께 하시길 기원합니다.\n\n코로나로 3년 만의 행사인 \"2023년 총동창회(제55차) 정기총회\"를 다음과 같이 마련하여 동문화합과 축제 만남의 장인 정기총회에 동문님을 초청하오니 바쁘시더라도 꼭 참석하여 자리를 빛내주시기 바랍니다.\n\n1. 행 사 명 : 제55차 정기총회\n2. 일 시 : 2023년 1월 28일(토) 오후 6시\n3. 장 소 : 부산 호텔농심 허심청 2층 대청홀\n4. 참 가 비 : 5만원\n5. 행사내용 :\n 1) 1부 : 총동창회 정기총회 기념식\n 2) 2부 : 화합과 축제의장\n6. 연 락 처 : 총동창회 사무국(☎321-2233)\n\n2023년 1월 5일\n\n경성전자고 총동창회 회장 오 창 훈", "legacy": []}, {"title": "제55차 정기총회 행사, 광고 섭외 요청(협조)", "date": "2023-01-09", "views": 1856, "body": "경 성 전 자 고 등 학 교 총 동 창 회\n(http://ksei.co.kr)\n(47258)부산시 부산진구 가야대로 749-1 신동아오피스텔1501호 사무국☎(051)321-2233(FAX)313-2253\n\n문서번호 : 경성23-01-05\n수 신 : 전 동문\n발 신 : 총동창회 사무국\n제 목 : 2023년(제55차) 정기총회 행사, 광고 섭외 요청(협조)\n\n1. 계묘년 새해에도 동문님의 하시는 일들이 만사형통하시길 빕니다.\n\n2. 그 동안 총동창회 발전에 많은 성원과 격려해 주심에 감사드립니다. \"2023년 총동창회(제55차) 정기총회\"를 갖게 되었습니다. 코로나로 3년 만의 행사 이오니 동문 화합과 축제 만남의 장인 정기총회에 각 동문님께서 서로 연락을 해주시고 소중한 자리에 다 함께 참석하시어 행사를 빛내 주시기 바랍니다.\n\n3. 정기총회는 신문의 매체를 활용하여 최대의 광고 효과를 얻고자 합니다. 또한 이로 인한 동문 업체의 홍보와 동문 간의 업종 교류의 장이 되시길 바라며 신문 광고비 협찬으로 더욱 발전하는 총동창회의 밑거름의 토양이 되어주시길 바랍니다. 동문님의 참여와 성원을 기다립니다.\n\n가. 총동창회 정기총회\n 1) 일 시 : 2023년 1월 28일(토요일) 오후6시\n 2) 장 소 : 부산 호텔농심 허심청 2층 대청홀\n 3) 대 상 : 전 동문님(부부동반)참석\n\n나. 행사 내용\n 1) 1부 : 정기총회 기념식\n 2) 2부 : 화합과 축제의장\n\n다. 신문광고 게재 내용(정기총회 기념지 광고 포함)\n 1) 광고일시 : 2023년 1월 26일(국제신문)\n 2) 광고크기 : 전면광고(업체당 1단 3줄 문자, 사이즈 4*3cm)\n 3) 광 고 료 : 20만원 기본(신청크기에 따라 협의 가능함)\n 4) 광고내용 : 상호 및 직함, 성명(기수), 연락처, 추가 기재사항\n 5) 광고접수 : 2023년 1월 20일까지 총동창회 사무국(T.321-2233)\n\n경 성 전 자 고 등 학 교\n총 동 창 회 회장 오 창 훈", "legacy": []}, {"title": "경성전자고 제6회 경성 동문 가족 등산대회 행사 알림", "date": "2022-11-03", "views": 1945, "body": "경 성 전 자 고 등 학 교 총 동 창 회\n(http://ksei.co.kr)\n(47258)부산광역시부산진구가야대로749-1 신동아오피스텔1501호 사무국☎(051)321-2233(FAX)313-2253\n\n문서번호 : 경성22-10-13\n수 신 : 전 동문\n발 신 : 총동창회 사무국\n제 목 : 제6회 경성 동문 가족 등산대회 행사 알림\n\n1. 동문님의 하시는 모든 사업에도 번창과 행운이 늘 함께 하시며 항상 건강하고 복된 생활이 충만하시길 빕니다.\n\n2. \"경성 동문가족 한마음 체육대회\"를 개최하지 못하게 됨에 따라, 동문님들을 만나 뵙고 싶은 마음이 간절하여 동문 가족들과 함께 할 수 있는 \"2022년도 제6회 경성 동문 가족 등산대회\"를 갖게 되었습니다. 가족 건강을 위한 등산대회에 각 동문님께서 서로 연락도 해주시고 소중한 자리에도 다 함께 참석하시어 행사를 빛내 주시기 바랍니다.\n\n가. 제6회 경성 동문 가족 등산대회\n 1) 일 시 : 2022년 11월 13일(일요일) 오후 1시\n 2) 장 소 : 금정산 산행 후 동래산성 다인(T.517-5933)\n - 부산시 금정구 땅곡길 45-5(금성동 299번지, 203번 종점 앞)\n 3) 대 상 : 전 동문님 참석(가족 동반 대환영)\n 4) 참가비 : 3만원(가족은 무료, 식사와 기념품 제공 포함)\n나. 행사 내용\n 1) 1부 : 금정산 산행(산악회원 안내 출발)\n ▶ 집결지 : 부산진구 초읍어린이대공원 정문 - 9시 30분\n 어린이대공원 정문⇒쇠미산 갈림길⇒만덕고개⇒남문⇒산성마을 행사장\n ☞ 집결지에 인원 확인 후 금정산으로 출발(타 장소 개별 출발도 가능함)\n 산행이 어려우신 분은 행사장(식당)으로 바로 오시면 됩니다.\n 2) 2부 : 기념식(점심 식사)과 동문 단합행사\n - 기념식, 기수별 족구시합, 장기자랑, 기념품 증정 등 기타. 끝.\n\n경 성 전 자 고 등 학 교\n총 동 창 회 회장 오 창 훈", "legacy": []}, {"title": "2022년 총동창회 개인별 발전 연의무금 모금 안내와 협조 요청", "date": "2022-05-19", "views": 2069, "body": "경 성 전 자 고 등 학 교 총 동 창 회\n(http://ksei.co.kr)\n(47258)부산광역시 부산진구 가야대로749-1, 신동아오피스텔1501호\n사무국 ☎(051)321-2233 (FAX)313-2253\n\n문서번호 : 경성22-05-16\n수 신 : 경성동문님 귀하\n발 신 : 총동창회 사무국\n제 목 : 2022년 총동창회 개인별 발전 연의무금 모금 안내와 협조 요청\n\n1. 동문님의 가정에 행복과 하시는 모든 사업에 번창과 행운이 늘 함께하시길 기원합니다.\n2. 발전 연의무금은 총동창회의 운영과 모든 행사 및 발전을 위해 소요, 적립되고 있습니다. 또한 동문 개인별 년1회 발전 연의무금 납입은 의무적 사항이며, 총동창회 구성원으로서 자부심을 갖고 많은 참여와 협조로 격려해 주시기 바랍니다.\n\n▣ 2022년 총동창회 개인별 발전 연의무금 모금 계획\n가. 기 간 : 2022년 1월 1일 ~ 2022년 12월 31일\n나. 모금액 : 3만원\n다. 방 법 : 별송 지로용지 금융기관납부 또는 계좌이체\n ([계좌 안내는 사무국 문의]경성전자고 총동창회 입금 가능)\n라. 확 인 : 금융결제원 경유(5일후) 사무국에서 통장확인\n마. 모금 진행상황 안내 : 총동창회 홈페이지에 수시로 게시(공람)함\n\n※ 참고사항 ⇒ 기타 문의사항은 사무국([계좌 안내는 사무국 문의])으로 전화주세요.\n- 동문기금은 지로용지 또는 부산은행계좌로 납부 가능합니다.(재정 투명화)\n- 서면지역에 나오시면 사무국에 방문하여 차 한잔하시고 잠깐이라도 쉬어가세요.\n- 34회 이후 후배 기수 동기회 결성 준비 중입니다. 많은 관심과 참여바랍니다.\n- [경성전자고등학교 총동창회] 네이버 밴드로 초대합니다.\n \"https://band.us/n/a0a67aJ9G6001\"\n\n* 지로 또는 계좌이체 시 졸업기수 및 성명을 꼭 기입 확인 바랍니다.\n\n경 성 전 자 고 등 학 교\n총동창회 회장 오 창 훈\n\n첨부파일(이전 홈페이지): 2022년 발전 연의무금 안내 협조.pdf (119.6K)", "legacy": []}, {"title": "\"2021 경성전자고등학교 총동창회 회원명부\" 발간 송부 및 구입 협조의 건", "date": "2021-07-02", "views": 2518, "body": "경 성 전 자 고 등 학 교 총 동 창 회\n(http://ksei.co.kr)\n(우 47258) 부산시 부산진구 가야대로 749-1, 1501호(부전동, 신동아오피스텔) TEL: (051)321-2233 FAX: (051)313-2253\n\n수 신 :\n참 조 :\n제 목 : \"2021 경성전자고등학교 총동창회 회원명부\" 발간 송부 및 구입 협조의 건\n\n1. 어려운 시기에도 경성전자고등학교 총동창회 발전을 위해 성원해주시는 동문님들께 깊은 감사를 드립니다.\n\n2. 경성전자고등학교 총동창회에서는 동문님들의 결속과 화합을 다지고, 잠재된 동문 발굴을 위한『2021 경성전자고등학교 총동창회 회원명부』가 발간되었습니다. 명부 제작에 있어 물심양면으로 협조해 주신 동문 여러분께 감사의 말씀을 드립니다.\n\n3.『2021 경성전자고등학교 총동창회 회원명부』대금은 사만원(￦40,000)입니다. 아울러 동문님께 회원명부 구입을 부탁드리오니, 아래의 계좌번호를 이용하여 입금해 주시면 대단히 감사하겠습니다.\n동문님께서 납부한 구입대금은 회원명부 제작비용 및 총동창회 발전기금으로 사용됩니다.\n\n4. 본 공문은 발송 일정에 따라 이미 입금하신 동문들께서도 받아보실 수 있습니다. 혹, 이미 입금하신 동문들께서는 양해 부탁드립니다. 그리고 회원명부가 발간된 후에 동문을 사칭해서 물건을 강매(잡지, 신문, 비디오 등)하는 전화를 받으시면 동문 여부를 꼭 확인하시고 절대 응하지 마시길 바랍니다.\n\n5.『개인정보보호원칙』에 의거, 본인의 정보 기재를 거부한 동문들은 회원명부에 싣지 못한 점, 양해바랍니다.\n\n- 납 부 안 내 -\n\n계좌번호 :[계좌 안내는 사무국 문의]\n\n\n경 성 전 자 고 등 학 교\n총 동 창 회 회장 오 창 훈\n\n■ 경성전자고등학교 총동창회 회원명부 편집실\n\n우 47258 부산시 부산진구 가야대로 749-1, 1501호 (부전동, 신동아오피스텔)\n전화 (051)808-8621\n팩스 (051)313-2253\n전자우편 dongchang429@naver.com", "legacy": []}, {"title": "2021년 총동창회 개인별 발전 연의무금 모금 안내와 협조 요청", "date": "2021-05-20", "views": 2238, "body": "", "legacy": ["http://www.ksei.co.kr/v2_board/data/file/notice/1345791429_o2vJAB8t_B5BFB9AEB9DFC0FCBFACC0C7B9ABB1DD.jpg"]}, {"title": "제5회 총동창회장배(동문가족) 등산대회 행사 알림", "date": "2020-05-21", "views": 2498, "body": "", "legacy": ["http://www.ksei.co.kr/v2_board/data/file/notice/1345791429_dXQcKqfN_5855B573DA0A0A51DDAC470CF48B8C10_1.jpg"]}, {"title": "제20회 경성 동문가족 한마음 체육대회 개최 일정 연기 안내", "date": "2020-05-21", "views": 2536, "body": "", "legacy": ["http://www.ksei.co.kr/v2_board/data/file/notice/1345791429_WLnqya81_73302B529531141F67CFF60D60120FEC_1.jpg"]}, {"title": "경성전자고등학교 제66회 졸업식 안내", "date": "2020-02-07", "views": 2587, "body": "졸업식 안내\n\n2020년 경자년 새해를 맞이하여 하시는 모든 일들이\n더욱 번창하시기를 기원합니다. 제66회 졸업식을 아래와 같이 갖게 되었사오니 많은 축하와 격려 부탁드립니다.\n\n● 일시 : 2020년 2월 11일 (화요일) 오전 11시\n● 장소 : 본교 강당\n\n2020. 01. 31.\n경성전자고등학교장\n\n첨부파일(이전 홈페이지): 66회 졸업식 안내장.hwp (1.4M), 66회 졸업식 요람(2019학년도).hwp (116.0K), 졸업식안내(신종코로나바이러스).hwp (128.0K)", "legacy": []}, {"title": "제54차 정기총회 및 회장 이.취임식에 초대합니다.", "date": "2020-01-03", "views": 2328, "body": "", "legacy": ["http://www.ksei.co.kr/v2_board/data/file/notice/1345791429_jxA9hkdy_C3CAC3BBC0E5.jpg"]}, {"title": "모교 산학일체형 도제학교 중 평가 1위", "date": "2019-10-28", "views": 2267, "body": "", "legacy": ["http://www.ksei.co.kr/v2_board/data/file/notice/1345791429_oQwPAcN4_6_763Ud018svctv6gb810ku9x_gkskrj.jpg"]}, {"title": "제19회 경성 동문가족 한마음 체육대회(부산일보, 4/24)", "date": "2019-04-24", "views": 2612, "body": "", "legacy": ["http://www.ksei.co.kr/v2_board/data/file/notice/1345791429_28l0Umk3_BCF6C1A4BDC3BEC82.jpg"]}, {"title": "제19회 경성 동문가족 한마음 체육대회에 초대합니다.", "date": "2019-04-02", "views": 2534, "body": "", "legacy": ["http://www.ksei.co.kr/v2_board/data/file/notice/1345791429_fg0zijwa_C3CAC3BBC0E5.jpg"]}, {"title": "제19회 경성 동문가족 한마음 체육대회 개최 광고 섭외 요청(협조)", "date": "2019-04-02", "views": 2515, "body": "", "legacy": ["http://www.ksei.co.kr/v2_board/data/file/notice/1345791429_86xXF3Dn_B1A4B0EDC7F9C2F9.jpg"]}, {"title": "경성전자고 총동창회 설립배경, 연혁", "date": "2019-03-14", "views": 2684, "body": "◉ 총동창회가 걸어온 길\n\n1956년 학교를 졸업한 후 대학에 진학한 친구들, 군대에 간 친구들, 직장생활을 하는 친구들 등 각각 뿔뿔이 흩어져 살다가 1963년 2월 졸업생 몇 명이 모여 술을 한잔하면서 우리 연락이 되는 친구들을 다 모아 모임 하나 만들어 보자고 한 것이 단초가 되었다. 15명의 동기들이 모이게 되었고, 모임의 이름을 광성 2회이니 '이성회'로 부르기로 하였다. 그때부터 매월 부부동반으로 모임을 해 왔는데 모임 때마다 특별한 사정이 없는 한 거의 다 참석하였으며 분위기도 참 좋았다.\n\n그 이듬해 인 1964년 '이성회'에서 발기하여 2회 동기회를 발족하였는데 동기회 역시 아주 성황을 이루었으므로 동기회의 정기총회에서 전체 동창회를 창립하기로 뜻을 모았다. 1966년 모교 운동장에서 동창회 창립총회를 개최하여 초대 회장으로 제1회 하동수 동문을 추대하고 총동창회에 소요되는 모든 경비는 2회에서 맡기로 하였다. 하동수 회장님께서는 취임 즉시 향후 우리 발기인들이 해야 할 일과 나아가야할 방향을 설정하고 동문 화합과 동문회의 발전을 위하여 11년 동안 혼신의 노력을 다하시다가 1976년 우리들의 간절한 권유에도 불구하고 사임을 하시기에 1977년 동창회 정기총회에서 2회 이두희 회장께서 동창회 회장을 맡아 7년을 연임하고, 그 후 2회 김홍수 회장이 10년, 2회 이경섭 회장이 6년 합계 23년을 2회에서 동창회 회장을 맡았으니 사실상 초기 동창회를 주관해온 셈이다. 하지만 우리 2회에서도 이렇게 긴 세월동안 전체 운영경비의 대부분을 불과 5~6명이 부담해 오다보니 동창회 기금이 빈약할 수밖에 없었다.\n\n초창기에는 모교 장기근속 교사들의 노고를 격려하여 5년 이상 근속은 5돈, 10년 이상은 10돈의 순금 메달을 만들어 증정하였고 학교의 입학식, 졸업식, 기타 학교의 중요행사 시에는 빠찜없이 참석 하였으나 동문회에서 제공하는 후배들의 장학금 수혜는 몇 사람에 불과하였다. 동창회 운영기금을 절약하기 위하여 해마다 동창회 정기총회는 모교의 옥상이나 운동장에서 개최하였고 당일 식사와 기타 음식들은 대신동의 이경섭 회장 자택에서 준비하였다. 사모님이 총회 일주일 전부터 시장을 봐와서 동기생 부인 몇 사람과 함께 2~3백 명의 음식을 만들어 학교로 운반하여 10년이 넘도록 이렇게 행사를 치러왔다. 당시에는 행사를 잘 치르고자 하는 의욕 때문에 아무것도 몰랐으나 지금 와서 생각해보면 그간의 노고에 대해 감사한 마음에 앞서 송구스럽고 죄송한 생각이 든다. 그리고 본 동창회의 창설 초기부터 4대 이경섭 회장은 수석부회장으로, 지금 금강사 주지스님 12회 이상철 동문은 총무차장으로 20년이랑 기나긴 세월동안 젊음을 바쳐 오직 동창회의 발전을 위하여 헌신해온 분들이다. 이와 같이 어려운 여건 속에서도 우리들은 동창회에 대한 열정 하나로 계속 운영해 오다가 지금으로부터 13년 전인 2000년 4월에 동창회 회장과 운영일체를 후배들에게 넘겨주게 되었고 11회 김석곤 회장이 취임하면서부터 그 후 차례로 회장단이 후배들에게 내려오고 있는데 새로 취임하는 회장들마다 동문 화합과 동창회의 발전을 위하여 전력을 다하므로 우리 동창회는 날이 다르게 발전을 거듭해 오고 있다. 매년 동창회 정기총회는 롯데호텔에서, 한마음 체육대회는 아시아드 보조경기장에서 개최하면서 부산일보와 국제신문에 전면광고를 하고 열과 성을 다하여 활기차게 잘 운영해 나가는 모습을 볼 때 남다른 감회와 형용 할 수 없는 보람을 느낀다. 이 좁은 지면에 역대 회장님들의 그 많은 업적을 다 열거 할 수는 없지만 특히 8대 박두경 회장이 취임하면서 숙원 사업이었던 총동창회 사무실을 매수하여 동창회 사무국의 확고한 토대를 구축함으로써 동문들의 만남의 광장과 휴식공간을 마련하게 되었다.\n\n◉ 총동창회 연혁\n(1966. 4. 1. 총동창회 창립)\n1966. 04. 01 초대 하 동 수 (1회) 회장 취임\n1977. 04. 01 제2대 이 두 희(2회) 회장 취임\n1984. 04. 01 제3대 김 홍 수(2회) 회장 취임\n1994. 04. 01 제4대 이 경 섭(2회) 회장 취임\n1999. 09. 02 경성전자정보고등학교로 교명 변경\n2000. 04. 01 제5대 김 석 곤(11회) 회장 취임\n2002. 04. 01 제6대 김 상 길(12회) 회장 취임\n2002. 04. 18 총동창회 정기총회 개최(롯데호텔 3층대연회장)\n2003. 04. 26 총동창회 정기총회 개최(온천장 허심청 대청홀)\n2004. 10. 10 제4회 경성 한마음체육대회 개최(강서공업용수사업소)\n2005. 04. 01 제7대 임 병 천(16회) 회장 취임\n2005. 10. 30 제5회 경성 한마음체육대회 개최(강서공업용수사업소)\n2006. 04. 22 총동창회 동문명부 발간(초판 흑백 인쇄)\n2006. 04. 22 총동창회 정기총회 개최(롯데호텔 3층 대연회장)\n2006. 09. 24 제6회 경성 한마음체육대회 개최(아시아드 보조경기장)\n2007. 04. 21 총동창회 정기총회 개최(롯데호텔 3층 대연회장)\n2007. 08. 21 경성전자고등학교로 교명 변경\n2007. 09. 30 제7회 경성 한마음체육대회 개최(아시아드 보조경기장)\n2008. 04. 30 총동창회 정기총회 개최(부산 롯데아트홀)\n2008. 09. 21 제8회 경성 한마음체육대회 개최(삼락체육공원 축구장)\n2009. 04. 18 제8대 박 두 경(18회) 회장 취임\n2009. 04. 18 제43차 정기총회 개최(롯데호텔 크리스탈 볼룸)\n2009. 09. 10 제9회 경성 한마음체육대회 개최(부산 아시아드 보조경기장)\n2009. 10. 01 총동창회 홈페이지 개선(업그레이드)\n2009. 11. 26 총동창회 사무국 확보 이전. 개소식\n *부산시 부산진구 부전1동 신동아오피스텔1501호*\n2010. 04. 17 제44차 정기총회 개최(롯데호텔 3층 크리스탈볼룸)\n2010. 04. 17 총동창회 동문명부 재 발간(2판 칼라인쇄)\n2010. 09. 26 제10회 경성 한마음체육대회 개최(부산아시아드 보조경기장)\n2010. 12. 04 모교 발전기금 1천만 원 전달(누계7회 총70,000천원)\n2011. 04. 23 제9대 최 기 평(19회) 회장 취임\n2011. 04. 23 제45차 정기총회 개최(롯데호텔 3층 크리스탈볼룸)\n2011. 11. 06 제11회 경성 한마음체육대회 개최(부산아시아드 보조경기장)\n2011. 11. 04 모교 발전기금 25,000천원 전달(누계8회 총 95,000천원)\n2012. 04. 21 제10대 옥 기 석(20회) 회장 취임\n2012. 04. 21 제46차 정기총회 개최(롯데호텔 3층 크리스탈볼룸)\n2012. 10. 25 모교 발전기금 10,000천원 전달(누계9회 총 105,000천원)\n2012. 10. 28 경성전자고 개교 60주년 기념 및 제12회 경성 동문가족 한마음체육대회(부산 구덕운동장)\n2013. 04. 20 제47차 정기총회 개최(호텔농심 허심청 2층 대청홀)\n2013. 09. 25 경성 60년사 발간 출판기념회\n2013. 09. 29 제13회 경성 동문가족 한마음 체육대회(부산아시아드 보조경기장)\n2014. 01. 18 제11대 오 철 규(21회) 회장 취임\n2014. 01. 18 제48차 정기총회 개최(호텔농심 허심청 2층 대청홀)\n2014. 06. 30 제1회 경성전자고 총동창회장배 골프대회(김해 가야CC)\n2014. 10. 19 제14회 경성 동문가족 한마음 체육대회(부산아시아드 보조경기장)\n2015. 01. 24 제49차 정기총회 개최(롯데호텔 3층 크리스탈볼룸)\n2015. 09. 20 제15회 경성 동문가족 한마음 체육대회(부산아시아드 보조경기장)\n2015. 11. 15 제3회 경성 동문가족 등산대회(금정산)\n2016. 01. 23 제50차 정기총회 개최(롯데호텔 3층 크리스탈볼룸)\n2016. 05. 31 제2회 경성전자고 총동창회장배 골프대회(김해 가야CC)\n2016. 06. 12 제16회 경성 동문가족 한마음 체육대회(부산아시아드 보조경기장)\n2017. 01. 14 제51차 정기총회 개최(호텔농심 허심청 2층 대청홀)\n2017. 06. 04 제17회 경성 동문가족 한마음 체육대회(부산아시아드 보조경기장)\n2017. 11. 19 제4회 경성 동문가족 등산대회(금정산)\n2018. 01. 20 제12대 문 승 환(25회) 회장 취임\n2018. 01. 20 제52차 정기총회 개최(롯데호텔 3층 크리스탈볼룸)\n2018. 06. 03 제18회 경성 동문가족 한마음 체육대회(부산강서공원 하키보조경기장)\n2019. 01. 19 제13대 김 영 배(25회) 회장 취임\n2019. 01. 19 제53차 정기총회 개최(롯데호텔 3층 크리스탈볼룸)\n\n첨부파일(이전 홈페이지): 총동창회스토리.hwp (32.0K)", "legacy": []}, {"title": "모교 홍보 자료(산학일체형 도제학교)", "date": "2019-02-14", "views": 2338, "body": "", "legacy": ["http://www.ksei.co.kr/v2_board/data/file/notice/1345791429_xzI1A4Lg_20181127_104656.jpg"]}, {"title": "모교 제65회 졸업식", "date": "2019-02-08", "views": 2382, "body": "", "legacy": ["http://www.ksei.co.kr/v2_board/data/file/notice/1345791429_TN8IYWrt_C1B9BEF7BDC4.jpg"]}, {"title": "2019년 제53차 정기총회에 초대합니다.", "date": "2018-12-31", "views": 2601, "body": "", "legacy": ["http://www.ksei.co.kr/v2_board/data/file/notice/1345791429_SEs3kmGp_C1A4B1E2C3D1C8B8_C3CAC3BBC0E5.jpg"]}, {"title": "2019년(제53차) 정기총회 행사, 광고 섭외 요청(협조)", "date": "2018-12-31", "views": 2832, "body": "", "legacy": ["http://www.ksei.co.kr/v2_board/data/file/notice/1345791429_2AqoUm9t_C1A4B1E2C3D1C8B8_BDC5B9AEB1A4B0ED_BCB7BFDC.jpg"]}, {"title": "경성 한마음축제", "date": "2018-11-19", "views": 2508, "body": "", "legacy": ["http://www.ksei.co.kr/v2_board/data/file/notice/1345791429_M7tsc5wQ_B0E6BCBAC3E0C1A6_BBEFB4DCC1A2C1F6BDC3BEC8BFEB-01.jpg", "http://www.ksei.co.kr/v2_board/data/file/notice/1345791429_fDcjM0Q1_0001.jpg"]}], "history": [{"y": "1966", "d": "04.01", "t": "초대하동 수 (1회) 회장 취임"}, {"y": "1977", "d": "04.01", "t": "제2대이두 희(2회) 회장 취임"}, {"y": "1984", "d": "04.01", "t": "제3대김홍 수(2회) 회장 취임"}, {"y": "1994", "d": "04.01", "t": "제4대이경 섭(2회) 회장 취임"}, {"y": "1999", "d": "09.02", "t": "경성전자정보고등학교로 교명 변경"}, {"y": "2000", "d": "04.01", "t": "제5대김석 곤(11회) 회장 취임"}, {"y": "2002", "d": "04.01", "t": "제6대김상 길(12회) 회장 취임"}, {"y": "2002", "d": "04.18", "t": "총동창회 정기총회 개최(롯데호텔 3층대연회장)"}, {"y": "2003", "d": "04.26", "t": "총동창회 정기총회 개최(온천장 허심청 대청홀)"}, {"y": "2004", "d": "10.10", "t": "제4회 경성 한마음체육대회 개최(강서공업용수사업소)"}, {"y": "2005", "d": "04.01", "t": "제7대임병 천(16회) 회장 취임"}, {"y": "2005", "d": "10.30", "t": "제5회 경성 한마음체육대회 개최(강서공업용수사업소)"}, {"y": "2006", "d": "04.22", "t": "총동창회 동문명부 발간(초판 흑백 인쇄)"}, {"y": "2006", "d": "04.22", "t": "총동창회 정기총회 개최(롯데호텔 3층 대연회장)"}, {"y": "2006", "d": "09.24", "t": "제6회 경성 한마음체육대회 개최(아시아드 보조경기장)"}, {"y": "2007", "d": "04.21", "t": "총동창회 정기총회 개최(롯데호텔 3층 대연회장)"}, {"y": "2007", "d": "08.21", "t": "경성전자고등학교로 교명 변경"}, {"y": "2007", "d": "09.30", "t": "제7회 경성 한마음체육대회 개최(아시아드 보조경기장)"}, {"y": "2008", "d": "04.30", "t": "총동창회 정기총회 개최(부산 롯데아트홀)"}, {"y": "2008", "d": "09.21", "t": "제8회 경성 한마음체육대회 개최(삼락체육공원 축구장)"}, {"y": "2009", "d": "04.18", "t": "제8대박두 경(18회) 회장 취임"}, {"y": "2009", "d": "04.18", "t": "제43차 정기총회 개최(롯데호텔 크리스탈 볼룸)"}, {"y": "2009", "d": "09.10", "t": "제9회 경성 한마음체육대회 개최(부산 아시아드 보조경기장)"}, {"y": "2009", "d": "10.01", "t": "총동창회 홈페이지 개선(업그레이드)"}, {"y": "2009", "d": "11.26", "t": "총동창회 사무국 확보 이전. 개소식 (부산시 부산진구 부전1동 신동아오피스텔1501호)"}, {"y": "2010", "d": "04.17", "t": "제44차 정기총회 개최(롯데호텔 3층 크리스탈볼룸)"}, {"y": "2010", "d": "04.17", "t": "총동창회 동문명부재발간(2판 칼라인쇄)"}, {"y": "2010", "d": "09.26", "t": "제10회 경성 한마음체육대회 개최(부산아시아드 보조경기장)"}, {"y": "2010", "d": "12.04", "t": "모교 발전기금 1천만원전달(누계7회 총70,000천원)"}, {"y": "2011", "d": "04.23", "t": "제9대최기 평(19회) 회장 취임"}, {"y": "2011", "d": "04.23", "t": "제45차 정기총회 개최(롯데호텔 3층 크리스탈볼룸)"}, {"y": "2011", "d": "11.06", "t": "제11회 경성 한마음체육대회 개최(부산아시아드 보조경기장)"}, {"y": "2011", "d": "11.04", "t": "모교 발전기금 25,000천원 전달(누계8회 총 95,000천원)"}, {"y": "2012", "d": "04.21", "t": "제10대옥기 석(20회) 회장 취임"}, {"y": "2012", "d": "04.21", "t": "제46차 정기총회 개최(롯데호텔 3층 크리스탈볼룸)"}, {"y": "2012", "d": "10.25", "t": "모교 발전기금 10,000천원 전달(누계9회 총 105,000천원)"}, {"y": "2012", "d": "10.28", "t": "경성전자고 개교 60주년 기념및제12회 경성 동문가족 한마음체육대회(부산 구덕운동장)"}, {"y": "2013", "d": "04.20", "t": "제47차 정기총회 개최(호텔농심 허심청 2층 대청홀)"}, {"y": "2013", "d": "09.25", "t": "경성 60년사 발간 출판기념회"}, {"y": "2013", "d": "09.29", "t": "제13회 경성 동문가족 한마음 체육대회(부산아시아드 보조경기장)"}, {"y": "2014", "d": "01.18", "t": "제11대오철 규(21회) 회장 취임"}, {"y": "2014", "d": "01.18", "t": "제48차 정기총회 개최(호텔농심 허심청 2층 대청홀)"}, {"y": "2014", "d": "06.30", "t": "제1회 경성전자고 총동창회장배 골프대회(김해 가야CC)"}, {"y": "2014", "d": "10.19", "t": "제14회 경성 동문가족 한마음 체육대회(부산아시아드 보조경기장)"}, {"y": "2015", "d": "01.24", "t": "제49차 정기총회 개최(롯데호텔 3층 크리스탈볼룸)"}, {"y": "2015", "d": "09.20", "t": "제15회 경성 동문가족 한마음 체육대회(부산아시아드 보조경기장)"}, {"y": "2015", "d": "11.15", "t": "제3회 경성 동문가족 등산대회(금정산)"}, {"y": "2016", "d": "01.23", "t": "제50차 정기총회 개최(롯데호텔 3층 크리스탈볼룸)"}, {"y": "2016", "d": "05.31", "t": "제2회 경성전자고 총동창회장배 골프대회(김해 가야CC)"}, {"y": "2016", "d": "06.12", "t": "제16회 경성 동문가족 한마음 체육대회(부산아시아드 보조경기장)"}, {"y": "2017", "d": "01.14", "t": "제51차 정기총회 개최(호텔농심 허심청 2층 대청홀)"}, {"y": "2017", "d": "06.04", "t": "제17회 경성 동문가족 한마음 체육대회(부산아시아드 보조경기장)"}, {"y": "2017", "d": "11.19", "t": "제4회 경성 동문가족 등산대회(금정산)"}, {"y": "2018", "d": "01.20", "t": "제12대문승 환(25회) 회장 취임"}, {"y": "2018", "d": "01.20", "t": "제52차 정기총회 개최(롯데호텔 3층 크리스탈볼룸)"}, {"y": "2018", "d": "06.03", "t": "제18회 경성 동문가족 한마음 체육대회(부산강서공원 하키보조경기장)"}, {"y": "2019", "d": "01.19", "t": "제13대김영 배(25회) 회장 취임"}, {"y": "2019", "d": "01.19", "t": "제53차 정기총회 개최(롯데호텔 3층 크리스탈볼룸)"}, {"y": "2020", "d": "01", "t": "제14대 오창훈(26회) 회장 취임 및 제54차 정기총회"}, {"y": "2021", "d": "07", "t": "2021 경성전자고등학교 총동창회 회원명부 발간"}, {"y": "2022", "d": "11.13", "t": "제6회 경성 동문가족 등산대회(금정산)"}, {"y": "2023", "d": "01.28", "t": "제55차 정기총회 개최(호텔농심 허심청 2층 대청홀), 코로나 이후 3년 만의 총회"}, {"y": "2023", "d": "06.11", "t": "경성 동문가족 봄 야유회(순천만 국가정원)"}, {"y": "2024", "d": "03.09", "t": "제15대 박두경(18회) 회장 취임 및 제56차 정기총회(호텔농심 허심청)"}, {"y": "2025", "d": "03.08", "t": "제57차 정기총회 개최(호텔농심 허심청 2층 대청홀)"}, {"y": "2026", "d": "03", "t": "제58차 정기총회 개최"}], "story": ["1956년 학교를 졸업한 후 대학에 진학한 친구들, 군대에 간 친구들, 직장생활을 하는 친구들 등 각각 뿔뿔이 흩어져 살다가 1963년 2월 졸업생 몇 명이 모여 술을 한잔하면서 우리 연락이 되는 친구들을 다 모아 모임 하나 만들어 보자고 한 것이 단초가 되었다. 15명의 동기들이 모이게 되었고, 모임의 이름을 광성 2회이니 '이성회'로 부르기로 하였다. 그때부터 매월 부부동반으로 모임을 해 왔는데 모임 때마다 특별한 사정이 없는 한 거의 다 참석하였으며 분위기도 참 좋았다."]};
+const CFG = window.KSEI_CONFIG || {};
+let sb = null;
+try{ if(CFG.supabaseUrl && CFG.supabaseAnonKey && window.supabase && !/YOUR/.test(CFG.supabaseUrl)) sb = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey); }catch(e){ console.error(e); }
+let USER = null, PROFILE = null;
+
+/* ---------- site map ---------- */
+const MENU = [
+  {t:'총동창회 소개', k:'about', items:[
+    ['회장 인사말','greeting'],['학교장 인사말','principal'],['연혁','history'],['조직과 임원','org'],['역대 회장','presidents'],['회칙','rules'],['오시는 길','location']]},
+  {t:'사업과 행사', k:'biz', items:[['주요 사업','business'],['연중 행사','events']]},
+  {t:'소식', k:'news', items:[['공지사항·행사안내','b/notice'],['포토갤러리','b/gallery'],['경조사','b/family']]},
+  {t:'커뮤니티', k:'comm', items:[['동문게시판','b/alumni'],['열린게시판','b/free'],['동문 업체 소개','b/company'],['기수별 동문회','classes']]},
+  {t:'모교 소개', k:'school', ext:'https://school.busanedu.net/kse-h/main.do'}
+];
+const BOARDS = {
+  notice:{t:'공지사항·행사안내', sec:'news', adminOnly:true, desc:'총동창회의 공식 알림과 행사 안내입니다.'},
+  gallery:{t:'포토갤러리', sec:'news', photo:true, desc:'동문 행사와 모임의 사진을 함께 나눕니다. 사진 올리기는 로그인 후 이용할 수 있습니다.'},
+  family:{t:'경조사', sec:'news', desc:'동문의 기쁜 일과 슬픈 일을 함께 나눕니다.'},
+  alumni:{t:'동문게시판', sec:'comm', tag:true, desc:'기수별 모임 소식과 동문 이야기를 나누는 공간입니다.'},
+  free:{t:'열린게시판', sec:'comm', desc:'누구나 자유롭게 의견을 나누는 공간입니다. 글쓰기는 로그인 후 이용할 수 있습니다.'},
+  company:{t:'동문 업체 소개', sec:'comm', desc:'동문이 운영하는 업체를 소개하고 서로 돕습니다.'}
+};
+const PRESIDENTS = [
+  ['초대','하동수','1회','1966–1976','mas01'],['2대','이두희','2회','1977–1983','mas02'],['3대','김홍수','2회','1984–1993','mas03'],
+  ['4대','이경섭','2회','1994–1999','mas04'],['5대','김석곤','11회','2000–2001','mas05'],['6대','김상길','12회','2002–2004','mas06'],
+  ['7대','임병천','16회','2005–2008','mas07'],['8대','박두경','18회','2009–2010','mas08'],['9대','최기평','19회','2011','mas09'],
+  ['10대','옥기석','20회','2012–2013','mas10'],['11대','오철규','21회','2014–2017','mas11'],['12대','문승환','25회','2018','mas12'],
+  ['13대','김영배','25회','2019','mas13'],['14대','오창훈','26회','2020–2023','mas14'],['15대','박두경','18회','2024–현재','mas08']
+];
+const OFFICERS = {
+  head:['회장','박두경','18회','신일전기(주) 대표이사'],
+  audit:[['감사','박종천','18회','㈜나이스에너지 전무이사'],['감사','고승용','19회','명성전기통신(주) 대표이사']],
+  vice:[['부회장','유덕규','20회','(주)KH산업개발 대표이사'],['부회장','김종철','23회','㈜더원에코파워텍 대표이사'],['부회장','최병열','26회','동남전기 대표'],['부회장','김덕천','28회','코리아계측기/이지티엠아이 대표'],['부회장','김경주','29회','㈜평창전기 대표이사'],['부회장','서철원','30회','㈜성광산전 대표이사'],['부회장','배성화','32회','쌍용엔지니어링 대표']],
+  office:['사무국장','이강정','28회','경성전자고등학교 교사'],
+  depts:[['총무부장·재무부장','백제욱','37회','명성테크 대표'],['조직부장','문봉창','33회','비엔지자동차정비'],['홍보부장','노재복','41회','NPX(주) 부장'],['섭외부장','이성훈','40회',''],['학교간사','이관태','44회','경성전자고등학교 교사'],['사무간사','이영미','','총동창회 사무국']],
+  advisors:[['자문위원','맹봉석','5회','아세아농원 대표'],['자문위원','김선상','11회','삼일전업사 대표'],['자문위원','한정문','13회','대일자원 대표']]
+};
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = d => { const x = new Date(d); if(isNaN(x)) return String(d||''); return `${x.getFullYear()}.${String(x.getMonth()+1).padStart(2,'0')}.${String(x.getDate()).padStart(2,'0')}`; };
+const linkify = s => esc(s).replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+const isAdmin = () => PROFILE && PROFILE.role === 'admin';
+function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2600); }
+const ICON = {
+  notice:'<svg viewBox="0 0 32 32"><path d="M6 13v6h4l10 6V7L10 13H6z"/><path d="M24 12a6 6 0 0 1 0 8"/></svg>',
+  photo:'<svg viewBox="0 0 32 32"><rect x="4" y="7" width="24" height="18" rx="2"/><circle cx="12" cy="14" r="2.5"/><path d="M4 22l7-6 6 5 4-3 7 6"/></svg>',
+  family:'<svg viewBox="0 0 32 32"><path d="M16 27s-10-6.2-10-13a5.5 5.5 0 0 1 10-3 5.5 5.5 0 0 1 10 3c0 6.8-10 13-10 13z"/></svg>',
+  board:'<svg viewBox="0 0 32 32"><path d="M6 6h20v15H13l-7 5z"/><path d="M11 12h10M11 16h7"/></svg>',
+  biz:'<svg viewBox="0 0 32 32"><rect x="5" y="10" width="22" height="16" rx="1"/><path d="M12 10V6h8v4M5 17h22"/></svg>',
+  people:'<svg viewBox="0 0 32 32"><circle cx="11" cy="11" r="4"/><circle cx="22" cy="12" r="3"/><path d="M3 26c1-5 4.5-7 8-7s7 2 8 7M19 20c3.5-.5 7 1 8 5"/></svg>'
+};
+
+/* ---------- chrome ---------- */
+function renderNav(sec){
+  $('#gnb').innerHTML = '<ul>' + MENU.map(m => m.ext
+    ? `<li><a href="${m.ext}" target="_blank" rel="noopener">${m.t}</a></li>`
+    : `<li><a href="#/${m.items[0][1]}" class="${sec===m.k?'on':''}">${m.t}</a><ul class="sub">${m.items.map(i=>`<li><a href="#/${i[1]}">${i[0]}</a></li>`).join('')}</ul></li>`
+  ).join('') + '</ul>';
+}
+function renderUtil(){
+  let h = '';
+  if(USER){
+    h += `<span class="who">${esc(PROFILE?.name || '회원')}님</span>`;
+    if(isAdmin()) h += `<a href="#/admin">관리자</a>`;
+    h += `<a href="#/mypage">내 정보</a><button id="logoutBtn">로그아웃</button>`;
+  } else {
+    h += `<a href="#/login">로그인</a><a href="#/signup">회원가입</a>`;
+  }
+  $('#utilBar').innerHTML = h;
+  const lb = $('#logoutBtn'); if(lb) lb.onclick = async()=>{ await sb.auth.signOut(); toast('로그아웃했습니다.'); location.hash = '#/'; };
+}
+function renderSetupBanner(){
+  if(!sb) $('#setupBanner').innerHTML = `<div class="setup-banner"><div class="wrap">미리보기 상태입니다. 회원가입·로그인·글쓰기는 <b>config.js</b>에 Supabase 연결 정보를 넣으면 작동합니다.</div></div>`;
+}
+$('#menuBtn').onclick = () => { const g=$('#gnb'); const o=g.classList.toggle('open'); $('#menuBtn').setAttribute('aria-expanded', o); };
+$('#yr').textContent = new Date().getFullYear();
+(function(){ const i=new Image(); i.onload=()=>{ $('#brandMark').innerHTML='<img src="images/logo.png" alt="">'; }; i.src='images/logo.png'; })();
+
+function subPage(sec, title, key, html){
+  const m = MENU.find(x=>x.k===sec);
+  return `<div class="sub-hero"><div class="wrap"><div class="crumb"><a href="#/">홈</a> › ${m.t}</div><h1>${title}</h1></div></div>
+  <div class="wrap sub-layout"><aside class="lnb"><h2>${m.t}</h2><ul>${m.items.map(i=>`<li><a href="#/${i[1]}" class="${i[1]===key?'on':''}">${i[0]}</a></li>`).join('')}</ul></aside>
+  <div class="content">${html}</div></div>`;
+}
+
+/* ---------- pages ---------- */
+function photoTag(src, alt, fallback){
+  return `<img src="${src}" alt="${esc(alt)}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'${fallback}'}))">`;
+}
+async function home(){
+  const evt = { t:'제58차 정기총회', sub:'2026년 총동창회 정기총회', place:'부산 호텔농심 허심청 2층 대청홀(예년 기준)', note:'세부 일정은 공지사항에서 확인해 주세요.' };
+  $('#main').innerHTML = `
+  <section class="hero"><div class="wrap">
+    <div>
+      <p class="years">1966<span>—</span>2026</p>
+      <h1>예순 해를 함께 걸어온<br>경성인의 이름으로</h1>
+      <p class="lead">1966년 모교 운동장에서 시작한 총동창회가 올해로 창립 60년을 맞았습니다. 선배가 끌어 주고 후배가 밀어 주는 경성의 전통을 이어갑니다.</p>
+      <div class="cta"><a class="btn" href="#/greeting">회장 인사말 보기</a><a class="btn line" href="#/b/notice">공지사항</a></div>
+    </div>
+    <figure class="frame" style="margin:0">
+      <div class="ph">경성전자고등학교 총동창회</div>
+      <img src="images/hero.jpg" alt="총동창회 정기총회 현장" onload="this.nextElementSibling.hidden=false" onerror="this.remove()">
+      <figcaption class="cap" hidden>2024년 제56차 정기총회, 호텔농심 허심청</figcaption>
+    </figure>
+  </div></section>
+  <nav class="quick" aria-label="바로가기"><div class="wrap"><ul>
+    <li><a href="#/b/notice">${ICON.notice}공지사항</a></li>
+    <li><a href="#/b/gallery">${ICON.photo}포토갤러리</a></li>
+    <li><a href="#/b/family">${ICON.family}경조사</a></li>
+    <li><a href="#/b/alumni">${ICON.board}동문게시판</a></li>
+    <li><a href="#/b/company">${ICON.biz}동문 업체</a></li>
+    <li><a href="#/classes">${ICON.people}기수별 동문회</a></li>
+  </ul></div></nav>
+  <section class="block"><div class="wrap two">
+    <div>
+      <div class="head-row"><h2 class="h2">공지사항·행사안내</h2><a class="more" href="#/b/notice">전체 보기</a></div>
+      <ul class="list" id="homeNotices"><li class="loading">불러오는 중</li></ul>
+    </div>
+    <div>
+      <div class="head-row"><h2 class="h2">다가오는 행사</h2></div>
+      <div class="event"><span class="tag">정기총회</span><h3>${evt.t}</h3>
+        <dl><dt>장소</dt><dd>${evt.place}</dd><dt>문의</dt><dd>총동창회 사무국 051-321-2233</dd></dl>
+        <p style="font-size:14px;color:var(--ink-soft);margin:16px 0 0">${evt.note}</p></div>
+      <div class="head-row" style="margin-top:36px"><h2 class="h2" style="font-size:22px">동문 소식</h2><a class="more" href="#/b/alumni">더 보기</a></div>
+      <ul class="list" id="homeAlumni"><li class="loading">불러오는 중</li></ul>
+    </div>
+  </div></section>
+  <section class="ribbon"><div class="wrap">
+    <h2 class="h2">총동창회가 걸어온 길</h2>
+    <p class="h2-sub">2회 동기 열다섯 명의 모임에서 시작해 70개 기수를 잇는 동창회가 되기까지</p>
+    <div class="rail">
+      <div class="stop"><div class="yr">1966</div><div class="tx">모교 운동장에서 창립총회, 초대 하동수 회장</div></div>
+      <div class="stop"><div class="yr">1999</div><div class="tx">경성전자정보고등학교로 교명 변경</div></div>
+      <div class="stop"><div class="yr">2007</div><div class="tx">경성전자고등학교로 교명 변경</div></div>
+      <div class="stop"><div class="yr">2009</div><div class="tx">서면 신동아오피스텔에 사무국 개소</div></div>
+      <div class="stop"><div class="yr">2012</div><div class="tx">모교 개교 60주년 기념 한마음체육대회</div></div>
+      <div class="stop"><div class="yr">2024</div><div class="tx">제15대 박두경 회장 취임</div></div>
+      <div class="stop now"><div class="yr">2026</div><div class="tx">창립 60주년, 제58차 정기총회</div></div>
+    </div>
+    <p style="margin-top:36px"><a class="btn line" style="color:#fff;border-color:rgba(255,255,255,.6)" href="#/history">연혁 전체 보기</a></p>
+  </div></section>
+  <section class="block"><div class="wrap">
+    <div class="head-row"><h2 class="h2">포토갤러리</h2><a class="more" href="#/b/gallery">전체 보기</a></div>
+    <div id="homeGallery" class="gal-grid"><div class="loading">불러오는 중</div></div>
+  </div></section>`;
+  const [n, a, g] = await Promise.all([fetchPosts('notice',{size:6}), fetchPosts('alumni',{size:4}), fetchPosts('gallery',{size:4})]);
+  $('#homeNotices').innerHTML = n.rows.length ? n.rows.map(p=>`<li><a href="#/p/${p.id}"><span class="t">${esc(p.title)}</span><span class="d">${fmt(p.created_at)}</span></a></li>`).join('') : '<li style="padding:16px 4px;color:var(--ink-soft)">등록된 공지가 없습니다.</li>';
+  $('#homeAlumni').innerHTML = a.rows.length ? a.rows.map(p=>`<li><a href="#/p/${p.id}"><span class="t">${esc(p.title)}</span><span class="d">${fmt(p.created_at)}</span></a></li>`).join('') : '<li style="padding:16px 4px;color:var(--ink-soft)">첫 소식을 올려 주세요. 로그인하면 글을 쓸 수 있습니다.</li>';
+  $('#homeGallery').innerHTML = g.rows.length ? g.rows.map(galItem).join('') : `<div class="note" style="grid-column:1/-1">아직 올라온 사진이 없습니다. 로그인 후 <a href="#/w/gallery">사진 올리기</a>에서 행사 사진을 나눠 주세요.</div>`;
+}
+function galItem(p){
+  const im = (p.images||[])[0];
+  return `<a class="gal-item" href="#/p/${p.id}"><div class="im">${im?`<img src="${esc(im)}" alt="" loading="lazy">`:''}</div><div class="t">${esc(p.title)}</div><div class="d">${fmt(p.created_at)}</div></a>`;
+}
+function origImg(src, label){
+  return `<details class="orig" hidden><summary>${label}</summary><img src="${src}" alt="${esc(label)}" onload="this.closest('details').hidden=false"></details>`;
+}
+function portrait(src, alt, initial){
+  return `<div class="portrait">${photoTag(src, alt, initial)}</div>`;
+}
+function letterHtml(text){
+  const paras = text.split(/\n\s*\n/);
+  const sign = paras.pop();
+  return paras.map((p,i)=>`<p${i===0?' class="open"':''}>${esc(p).replace(/\*\*(.+?)\*\*/gs,'<strong>$1</strong>').replace(/\n/g,' ')}</p>`).join('') + `<p class="sign">${esc(sign)}</p>`;
+}
+const PAGES = {
+  greeting: ()=> subPage('about','회장 인사말','greeting', `<div class="quote-side"><div class="letter">${letterHtml(DATA.greet)}</div>
+    <aside>${portrait('images/presidents/mas08.jpg','박두경 총동창회장','박')}<p>제15대 총동창회장<br><b style="color:var(--navy);font-size:20px">박두경</b><br>18회 졸업</p><p style="margin-top:20px">“앞에서 끌어 주고 뒤에서 밀어주는 동력”</p></aside></div>
+    ${origImg('images/greeting-president.png','이전 홈페이지의 인사말 원본 보기')}`),
+  principal: ()=> subPage('about','학교장 인사말','principal', `<div class="quote-side"><div class="letter">${letterHtml(DATA.principal)}</div>
+    <aside>${portrait('images/principal.jpg','하민용 학교장','하')}<p>경성전자고등학교<br>제14대 학교장<br><b style="color:var(--navy);font-size:20px">하민용</b></p><p style="margin-top:20px">인공지능 선도학교, 특성화고 최초 국제학교 인증</p></aside></div>
+    ${origImg('images/greeting-principal.png','이전 홈페이지의 인사말 원본 보기')}`),
+  history: ()=> {
+    const groups = {}; DATA.history.forEach(h=>{ (groups[h.y] ||= []).push(h); });
+    let lastDec = '';
+    const html = Object.keys(groups).map(y=>{
+      const dec = y.slice(0,3)+'0년대'; const head = dec!==lastDec ? `<div class="decade">${dec}</div>` : ''; lastDec = dec;
+      return head + `<div class="yr-group"><div class="yr">${y}</div><ul>${groups[y].map(h=>`<li><span class="d">${h.d}</span><span>${esc(h.t)}</span></li>`).join('')}</ul></div>`;
+    }).join('');
+    return subPage('about','연혁','history', `<div class="prose"><h3 style="margin-top:0">총동창회가 걸어온 길</h3>${DATA.story.map(p=>`<p>${esc(p)}</p>`).join('')}</div>
+      <h3 class="h2" style="font-size:24px;margin-top:48px">연혁</h3><div class="history">${html}</div>
+      <p class="note">2019년 이후 기록은 공지사항을 바탕으로 정리했습니다. 빠진 내용은 사무국으로 알려 주시면 보완하겠습니다.</p>`);
+  },
+  org: ()=> {
+    const nd = (o,cls='') => `<div class="node ${cls}"><div class="r">${o[0]}</div><div class="p">${o[1]}${o[2]?` <small style="font-size:13px;font-weight:400">(${o[2]})</small>`:''}</div>${o[3]?`<div class="w">${o[3]}</div>`:''}</div>`;
+    return subPage('about','조직과 임원','org', `
+      <p class="h2-sub">2024년 제15대 총동창회 임원(회장단, 사무국) 기준입니다.</p>
+      <div class="org">
+        <div class="lvl">${nd(OFFICERS.head,'top')}</div>
+        <div class="lvl"><div class="group"><div class="group-t">감사</div>${OFFICERS.audit.map(o=>nd(o)).join('')}</div><div class="group"><div class="group-t">자문위원</div>${OFFICERS.advisors.map(o=>nd(o)).join('')}</div></div>
+        <div class="lvl"><div class="group"><div class="group-t">부회장단</div>${OFFICERS.vice.map(o=>nd(o)).join('')}</div></div>
+        <div class="lvl">${nd(OFFICERS.office)}</div>
+        <div class="lvl"><div class="group"><div class="group-t">사무국</div>${OFFICERS.depts.map(o=>nd(o)).join('')}</div></div>
+      </div>
+      <div class="note">이사회는 회장단과 각 기수 회장, 지역·직장 동문회와 동호회 회장으로 구성됩니다(회칙 제11조). 산하 모임으로 재경 동문회, 김해 동문회, 해운대 동문회, 현대자동차 동문회, 성아회(동아대), 부성회(부산시청), 경전회, 대우조선 동문회, 경성 광포회, 경성골프회, 경성산악회, 경성조우회, 태권도동문(광무)회가 있습니다(2019년 조직도 기준).</div>
+      ${origImg('images/org-2019.jpg','2019년(제13대) 조직도 원본 보기')}`);
+  },
+  presidents: ()=> subPage('about','역대 회장','presidents', `
+    <div class="pres-strip">${PRESIDENTS.map(p=>`<div class="pres"><div class="ph">${photoTag('images/presidents/'+p[4]+'.jpg', p[1]+' 회장', p[1][0])}</div><span class="n">${p[0]}</span><b>${p[1]}</b><span>${p[2]} · ${p[3]}</span></div>`).join('')}</div>`),
+  rules: ()=> subPage('about','회칙','rules', `<div class="rules">${DATA.rules.map((r,i)=>`<details ${i===0?'open':''}><summary>${esc(r.title)}</summary><div class="body">${rulesBody(r.body)}</div></details>`).join('')}</div>`),
+  location: ()=> subPage('about','오시는 길','location', `
+    <div class="two" style="grid-template-columns:1fr 1fr;gap:40px">
+      <div>
+        <h3 class="h2" style="font-size:22px">총동창회 사무국</h3>
+        <table class="tbl"><tbody>
+          <tr><th>주소</th><td>(47258) 부산광역시 부산진구 가야대로 749-1, 1501호<br>(부전동, 신동아오피스텔)</td></tr>
+          <tr><th>전화</th><td><a href="tel:051-321-2233">051-321-2233</a></td></tr>
+          <tr><th>팩스</th><td>051-313-2253</td></tr>
+          <tr><th>이메일</th><td><a href="mailto:ks3212233@hanmail.net">ks3212233@hanmail.net</a></td></tr>
+          <tr><th>지하철</th><td>부암역 2번 출구 또는 서면역 9번 출구<br>부산진경찰서, 롯데호텔부산 인근</td></tr>
+        </tbody></table>
+        <p style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap"><a class="btn" target="_blank" rel="noopener" href="https://map.naver.com/p/search/부산진구 가야대로 749-1">네이버 지도</a><a class="btn line" target="_blank" rel="noopener" href="https://map.kakao.com/?q=부산진구 가야대로 749-1">카카오맵</a></p>
+      </div>
+      <div class="frame" style="aspect-ratio:1/1"><div class="ph">신동아오피스텔 1501호<br><small style="font-size:15px">부암역·서면역 인근</small></div><img src="images/map.jpg" alt="사무국 약도" onerror="this.remove()" style="position:relative;object-fit:contain;background:#fff"></div>
+    </div>`),
+  business: ()=> subPage('biz','주요 사업','business', `<div class="prose">
+    <p>총동창회는 회원의 화합과 결속을 도모하며, 모교의 발전과 후배들의 장학 지원에 이바지하는 것을 목적으로 합니다(회칙 제2조).</p>
+    <h3>동문 화합</h3><p>매년 정기총회를 열어 동문이 한자리에 모이고, 기수별 동기회와 지역·직장 동문회, 동호회 활동을 지원합니다. 동문명부를 발간해 동문 사이의 연결을 돕습니다.</p>
+    <h3>모교 발전 지원</h3><p>입학식과 졸업식, 스승의 날 등 모교의 주요 행사에 함께하고 모교 발전기금을 전달해 왔습니다. 2012년까지 아홉 차례에 걸쳐 누계 1억 5백만 원을 전달했습니다.</p>
+    <h3>장학 사업</h3><p>후배 육성을 위해 총동창회 장학위원회를 두고 있습니다(회칙 제9장).</p>
+    <h3>자랑스런 경성인 상</h3><p>총동창회와 모교 발전에 크게 기여한 동문을 추대해 정기총회에서 시상합니다.</p></div>`),
+  events: ()=> subPage('biz','연중 행사','events', `
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>행사</th><th>시기</th><th>내용</th></tr></thead><tbody>
+      <tr><td><b>정기총회</b></td><td class="num">매년 1~3월</td><td>정기총회 기념식과 화합의 장. 최근에는 호텔농심 허심청 대청홀에서 열립니다.</td></tr>
+      <tr><td><b>경성 동문가족 한마음 체육대회</b></td><td class="num">봄 또는 가을</td><td>2001년부터 이어 온 동문과 가족의 체육대회. 2019년 제19회까지 열렸습니다.</td></tr>
+      <tr><td><b>동문가족 등산대회</b></td><td class="num">가을</td><td>총동창회장배 등산대회. 2022년 제6회는 금정산에서 열렸습니다.</td></tr>
+      <tr><td><b>총동창회장배 골프대회</b></td><td class="num">초여름</td><td>2014년 제1회(김해 가야CC)부터 열고 있습니다.</td></tr>
+      <tr><td><b>정기이사회·송년의 밤</b></td><td class="num">연말</td><td>한 해 사업을 정리하고 동문 간 정을 나눕니다.</td></tr>
+      <tr><td><b>모교 행사 참여</b></td><td class="num">연중</td><td>입학식, 졸업식, 스승의 날 행사에 함께합니다.</td></tr>
+    </tbody></table></div>`),
+  classes: ()=> subPage('comm','기수별 동문회','classes', `
+    <p class="h2-sub">졸업 기수를 고르면 동문게시판에서 해당 기수의 소식만 모아 볼 수 있습니다.</p>
+    <div class="classes">${Array.from({length:72},(_,i)=>`<a href="#/b/alumni?tag=${i+1}">${i+1}회</a>`).join('')}</div>
+    <div class="note">기수별 동문 명단과 연락처는 개인정보 보호를 위해 홈페이지에 공개하지 않습니다. 동문 연락이 필요하면 사무국(051-321-2233)으로 문의해 주세요.</div>`),
+  privacy: ()=> `<div class="sub-hero"><div class="wrap"><h1>개인정보처리방침</h1></div></div><div class="wrap prose" style="padding-top:40px;padding-bottom:80px">${PRIVACY}</div>`
+};
+const PRIVACY = `<p>경성전자고등학교 총동창회(이하 ‘총동창회’)는 회원의 개인정보를 소중히 다루며 「개인정보 보호법」을 지킵니다.</p>
+<h3>수집하는 항목과 목적</h3><p>이름, 아이디, 비밀번호, 이메일, 전화번호, 졸업 기수(선택)를 회원 확인과 게시판 이용, 총동창회 소식 안내를 위해 수집합니다. 비밀번호는 암호화되어 저장되며 관리자도 볼 수 없습니다.</p>
+<h3>보유 기간</h3><p>회원 탈퇴 시까지 보유하며, 탈퇴 요청을 받으면 지체 없이 삭제합니다.</p>
+<h3>공개 범위</h3><p>이메일과 전화번호는 본인과 총동창회 관리자만 볼 수 있으며 다른 회원에게 공개하지 않습니다. 게시글에는 이름만 표시됩니다.</p>
+<h3>문의</h3><p>총동창회 사무국 051-321-2233, ks3212233@hanmail.net</p>`;
+function rulesBody(t){
+  return t.split('\n').map(l=>{
+    l = l.trim(); if(!l) return '';
+    if(/^제\s?\d+\s?장/.test(l)) return `<div class="ch">${esc(l)}</div>`;
+    const m = l.match(/^(제\s?\d+\s?조\s?\([^)]*\))\s*(.*)$/);
+    if(m) return `<p class="ar"><b>${esc(m[1])}</b> ${esc(m[2])}</p>`;
+    return `<p class="ar" style="padding-left:1em">${esc(l)}</p>`;
+  }).join('');
+}
+
+/* ---------- data layer ---------- */
+const LOCAL_NOTICES = DATA.notices.map((n,i)=>({id:'n'+(i+1), board:'notice', title:n.title, content:n.body + (n.legacy.length?'\n\n원문 이미지(이전 홈페이지):\n'+n.legacy.join('\n'):''), images:[], author_name:'총동창회 사무국', created_at:n.date, views:n.views, pinned:false}));
+async function fetchPosts(board,{page=1,size=15,q='',tag=''}={}){
+  if(!sb){
+    let rows = board==='notice' ? LOCAL_NOTICES : [];
+    if(q) rows = rows.filter(r=>r.title.includes(q)||r.content.includes(q));
+    return {rows: rows.slice((page-1)*size, page*size), total: rows.length};
+  }
+  let qy = sb.from('posts').select('id,title,author_name,created_at,views,images,tag,pinned,comment_count', {count:'exact'}).eq('board',board);
+  if(q) qy = qy.or(`title.ilike.%${q.replace(/[%,()]/g,'')}%,content.ilike.%${q.replace(/[%,()]/g,'')}%`);
+  if(tag) qy = qy.eq('tag', tag);
+  const {data, count, error} = await qy.order('pinned',{ascending:false}).order('created_at',{ascending:false}).range((page-1)*size, page*size-1);
+  if(error){ console.error(error); return {rows:[], total:0, error}; }
+  return {rows:data, total:count||0};
+}
+async function getPost(id){
+  if(!sb) return LOCAL_NOTICES.find(n=>n.id===id) || null;
+  const {data} = await sb.from('posts').select('*').eq('id', id).maybeSingle();
+  if(data) sb.rpc('increment_views', {p_id: Number(id)}).then(()=>{});
+  return data;
+}
+
+/* ---------- board views ---------- */
+async function boardView(key, params){
+  const B = BOARDS[key]; if(!B) return notFound();
+  const page = Number(params.get('page')||1), q = params.get('q')||'', tag = params.get('tag')||'';
+  const canWrite = B.adminOnly ? isAdmin() : true;
+  const title = tag ? `${B.t} · ${tag}회` : B.t;
+  $('#main').innerHTML = subPage(B.sec, title, 'b/'+key, `
+    <p class="h2-sub">${B.desc}</p>
+    <div class="board-tools">
+      <form id="sf" role="search"><input class="input" name="q" value="${esc(q)}" placeholder="제목·내용 검색" style="width:220px"><button class="btn line small">검색</button></form>
+      ${canWrite?`<a class="btn small" href="#/w/${key}${tag?'?tag='+tag:''}">${B.photo?'사진 올리기':'글쓰기'}</a>`:''}
+    </div><div id="bl"><div class="loading">불러오는 중</div></div>`);
+  $('#sf').onsubmit = e => { e.preventDefault(); const v = e.target.q.value.trim(); location.hash = `#/b/${key}?${new URLSearchParams({...(v?{q:v}:{}),...(tag?{tag}:{})})}`; };
+  const size = B.photo ? 12 : 15;
+  const {rows, total} = await fetchPosts(key,{page,size,q,tag});
+  if(!rows.length){
+    $('#bl').innerHTML = `<div class="empty"><p>${q?'검색 결과가 없습니다.':'아직 등록된 글이 없습니다.'}</p>${canWrite && !q?`<a class="btn" href="#/w/${key}">${B.photo?'첫 사진 올리기':'첫 글 쓰기'}</a>`:''}</div>`;
+    return;
+  }
+  const start = total - (page-1)*size;
+  const listHtml = B.photo ? `<div class="gal-grid">${rows.map(galItem).join('')}</div>` :
+    `<table class="board"><thead><tr><th class="hide-m" style="width:70px">번호</th><th>제목</th><th class="hide-m" style="width:130px">글쓴이</th><th style="width:110px">날짜</th><th class="hide-m" style="width:70px">조회</th></tr></thead><tbody>
+    ${rows.map((p,i)=>`<tr class="${p.pinned?'pin':''}"><td class="c hide-m">${p.pinned?'공지':start-i}</td><td>${p.tag?`<span class="badge">${esc(p.tag)}회</span>`:''}<a href="#/p/${p.id}">${esc(p.title)}</a>${p.images?.length?' <span class="cnt">사진</span>':''}${p.comment_count?`<span class="cnt">[${p.comment_count}]</span>`:''}</td><td class="c hide-m">${esc(p.author_name||'')}</td><td class="c">${fmt(p.created_at)}</td><td class="c hide-m">${p.views||0}</td></tr>`).join('')}
+    </tbody></table>`;
+  const pages = Math.ceil(total/size);
+  const pg = pages>1 ? `<div class="pager">${Array.from({length:pages},(_,i)=>i+1).filter(n=>Math.abs(n-page)<5||n===1||n===pages).map(n=>`<button class="${n===page?'on':''}" data-p="${n}">${n}</button>`).join('')}</div>` : '';
+  $('#bl').innerHTML = listHtml + pg;
+  document.querySelectorAll('.pager button').forEach(b=>b.onclick=()=>{ const p=new URLSearchParams(params); p.set('page',b.dataset.p); location.hash=`#/b/${key}?${p}`; });
+}
+
+async function postView(id){
+  $('#main').innerHTML = '<div class="loading">불러오는 중</div>';
+  const p = await getPost(id);
+  if(!p) return notFound();
+  const B = BOARDS[p.board] || BOARDS.free;
+  const mine = USER && (p.author_id===USER.id || isAdmin());
+  const imgs = (p.images||[]).map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener"><img src="${esc(u)}" alt="" loading="lazy"></a>`).join('');
+  $('#main').innerHTML = subPage(B.sec, B.t, 'b/'+p.board, `
+    <article><div class="post-h"><h2>${p.tag?`<span class="badge">${esc(p.tag)}회</span>`:''}${esc(p.title)}</h2>
+      <div class="meta"><span>${esc(p.author_name||'')}</span><span>${fmt(p.created_at)}</span><span>조회 ${p.views||0}</span></div></div>
+      <div class="post-b">${linkify(p.content||'')}${imgs?`<div class="post-imgs">${imgs}</div>`:''}</div></article>
+    <div class="post-actions"><a class="btn line small" href="#/b/${p.board}">목록</a>
+      <span style="display:flex;gap:8px">${mine?`<a class="btn line small" href="#/w/${p.board}?id=${p.id}">수정</a><button class="btn danger small" id="delBtn">삭제</button>`:''}</span></div>
+    <section class="comments" id="cmts"></section>`);
+  if(mine) $('#delBtn').onclick = async()=>{
+    if(!confirm('이 글을 삭제할까요? 삭제한 글은 되돌릴 수 없습니다.')) return;
+    const {error} = await sb.from('posts').delete().eq('id', p.id);
+    if(error) return toast('삭제하지 못했습니다: '+error.message);
+    toast('글을 삭제했습니다.'); location.hash = '#/b/'+p.board;
+  };
+  if(sb) loadComments(p.id);
+}
+async function loadComments(pid){
+  const {data=[]} = await sb.from('comments').select('*').eq('post_id', pid).order('created_at');
+  const box = $('#cmts'); if(!box) return;
+  box.innerHTML = `<h3>댓글 ${data.length}</h3>${data.map(c=>`<div class="cmt"><div class="m"><b style="color:var(--ink)">${esc(c.author_name)}</b><span>${fmt(c.created_at)}</span>${USER&&(c.author_id===USER.id||isAdmin())?`<button data-c="${c.id}">삭제</button>`:''}</div><p>${esc(c.content)}</p></div>`).join('')}
+    ${USER?`<form id="cf" style="margin-top:16px;display:flex;gap:8px"><textarea class="input" name="c" rows="2" required placeholder="댓글을 입력하세요"></textarea><button class="btn" style="flex-shrink:0">등록</button></form>`:`<p style="font-size:14px;color:var(--ink-soft);margin-top:14px"><a href="#/login?next=${encodeURIComponent(location.hash)}">로그인</a>하면 댓글을 남길 수 있습니다.</p>`}`;
+  box.querySelectorAll('[data-c]').forEach(b=>b.onclick=async()=>{ if(!confirm('댓글을 삭제할까요?'))return; await sb.from('comments').delete().eq('id',b.dataset.c); loadComments(pid); });
+  const f = $('#cf'); if(f) f.onsubmit = async e=>{ e.preventDefault(); const c=f.c.value.trim(); if(!c)return; const {error}=await sb.from('comments').insert({post_id:pid, content:c}); if(error) return toast('댓글을 등록하지 못했습니다.'); loadComments(pid); };
+}
+
+async function compress(file){
+  if(!/^image\//.test(file.type) || file.type==='image/gif') return file;
+  const bmp = await createImageBitmap(file).catch(()=>null); if(!bmp) return file;
+  const max = 1920, s = Math.min(1, max/Math.max(bmp.width,bmp.height));
+  const c = Object.assign(document.createElement('canvas'),{width:Math.round(bmp.width*s),height:Math.round(bmp.height*s)});
+  c.getContext('2d').drawImage(bmp,0,0,c.width,c.height);
+  return await new Promise(r=>c.toBlob(b=>r(b||file),'image/jpeg',.85));
+}
+async function writeView(key, params){
+  const B = BOARDS[key]; if(!B) return notFound();
+  if(!sb) return needSetup();
+  if(!USER){ location.hash = '#/login?next='+encodeURIComponent(location.hash); return; }
+  if(B.adminOnly && !isAdmin()){ $('#main').innerHTML = subPage(B.sec,B.t,'b/'+key,'<div class="empty"><p>공지사항은 관리자만 쓸 수 있습니다.</p></div>'); return; }
+  const id = params.get('id'); let post = null;
+  if(id){ const {data} = await sb.from('posts').select('*').eq('id',id).maybeSingle(); post = data; if(!post || (post.author_id!==USER.id && !isAdmin())) return notFound(); }
+  let images = post?.images ? [...post.images] : [];
+  const tag = post?.tag || params.get('tag') || (PROFILE?.class_year ? String(PROFILE.class_year) : '');
+  $('#main').innerHTML = subPage(B.sec, B.t+(post?' 글 수정':(B.photo?' 사진 올리기':' 글쓰기')), 'b/'+key, `
+    <form class="form wide" id="wf">
+      ${B.tag?`<div class="field"><label for="tg">기수</label><select class="input" id="tg" name="tag" style="max-width:200px"><option value="">전체(기수 없음)</option>${Array.from({length:72},(_,i)=>`<option value="${i+1}" ${String(i+1)===tag?'selected':''}>${i+1}회</option>`).join('')}</select></div>`:''}
+      <div class="field"><label for="tt">제목 <span class="req">*</span></label><input class="input" id="tt" name="title" required maxlength="120" value="${esc(post?.title||'')}"></div>
+      <div class="field"><label for="ct">내용${B.photo?'':' <span class="req">*</span>'}</label><textarea class="input" id="ct" name="content" rows="14" ${B.photo?'':'required'}>${esc(post?.content||'')}</textarea></div>
+      ${isAdmin()?`<div class="field check"><input type="checkbox" id="pn" name="pinned" ${post?.pinned?'checked':''}><label for="pn" style="margin:0;font-weight:400">목록 맨 위에 고정</label></div>`:''}
+      <div class="field"><label for="fi">사진 ${B.photo?'<span class="req">*</span>':'(선택)'}</label><input type="file" id="fi" accept="image/*" multiple><div class="hint">한 번에 최대 20장, 큰 사진은 자동으로 줄여서 올립니다.</div><div class="thumbs" id="th"></div></div>
+      <div class="err" id="we"></div>
+      <div style="display:flex;gap:8px"><button class="btn" id="wb">${post?'수정 완료':'등록하기'}</button><a class="btn line" href="${post?'#/p/'+post.id:'#/b/'+key}">취소</a></div>
+    </form>`);
+  const pending = [];
+  const drawThumbs = () => { $('#th').innerHTML = images.map((u,i)=>`<div><img src="${esc(u)}" alt=""><button type="button" data-i="${i}" aria-label="사진 빼기">×</button></div>`).join('') + pending.map((f,i)=>`<div><img src="${URL.createObjectURL(f)}" alt=""><button type="button" data-j="${i}" aria-label="사진 빼기">×</button></div>`).join('');
+    $('#th').querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{images.splice(b.dataset.i,1);drawThumbs();});
+    $('#th').querySelectorAll('[data-j]').forEach(b=>b.onclick=()=>{pending.splice(b.dataset.j,1);drawThumbs();}); };
+  drawThumbs();
+  $('#fi').onchange = e => { for(const f of e.target.files){ if(images.length+pending.length<20) pending.push(f); } e.target.value=''; drawThumbs(); };
+  $('#wf').onsubmit = async e => {
+    e.preventDefault(); const f = e.target, err = $('#we'), btn = $('#wb'); err.textContent='';
+    if(B.photo && !images.length && !pending.length){ err.textContent='사진을 한 장 이상 골라 주세요.'; return; }
+    btn.disabled = true; btn.textContent = '올리는 중';
+    try{
+      for(const file of pending){
+        const blob = await compress(file);
+        const path = `${USER.id}/${Date.now()}-${Math.random().toString(36).slice(2,8)}.jpg`;
+        const {error} = await sb.storage.from('uploads').upload(path, blob, {contentType: blob.type||'image/jpeg'});
+        if(error) throw error;
+        images.push(sb.storage.from('uploads').getPublicUrl(path).data.publicUrl);
+      }
+      const row = {board:key, title:f.title.value.trim(), content:f.content.value, images, tag: B.tag ? (f.tag.value||null) : null};
+      if(isAdmin()) row.pinned = f.pinned?.checked || false;
+      const res = post ? await sb.from('posts').update(row).eq('id',post.id).select().single() : await sb.from('posts').insert(row).select().single();
+      if(res.error) throw res.error;
+      toast(post?'글을 수정했습니다.':'글을 등록했습니다.'); location.hash = '#/p/'+res.data.id;
+    }catch(x){ err.textContent = '저장하지 못했습니다: '+(x.message||x); btn.disabled=false; btn.textContent = post?'수정 완료':'등록하기'; }
+  };
+}
+
+/* ---------- auth ---------- */
+function needSetup(){ $('#main').innerHTML = `<div class="wrap" style="padding:80px 24px"><div class="auth-box"><h2>준비 중입니다</h2><p class="sub">회원 기능은 홈페이지 관리자가 Supabase 연결을 마치면 이용할 수 있습니다.</p><a class="btn" href="#/">홈으로</a></div></div>`; }
+function loginView(params){
+  if(!sb) return needSetup();
+  const next = params.get('next') || '#/';
+  $('#main').innerHTML = `<div class="wrap" style="padding:72px 24px 96px"><div class="auth-box"><h2>로그인</h2><p class="sub">아이디와 비밀번호를 입력해 주세요.</p>
+    <form id="lf"><div class="field"><label for="lu">아이디</label><input class="input" id="lu" name="u" autocomplete="username" required></div>
+    <div class="field"><label for="lp">비밀번호</label><input class="input" type="password" id="lp" name="p" autocomplete="current-password" required></div>
+    <div class="err" id="le"></div><button class="btn" style="width:100%">로그인</button></form>
+    <p class="alt">아직 회원이 아니신가요? <a href="#/signup">회원가입</a><br>비밀번호를 잊으셨다면 사무국(051-321-2233)으로 문의해 주세요.</p></div></div>`;
+  $('#lf').onsubmit = async e => {
+    e.preventDefault(); const u = e.target.u.value.trim(), p = e.target.p.value, er = $('#le'); er.textContent='';
+    let email = u;
+    if(!u.includes('@')){ const {data, error} = await sb.rpc('login_email', {p_username: u.toLowerCase()}); if(error || !data){ er.textContent='아이디 또는 비밀번호가 맞지 않습니다.'; return; } email = data; }
+    const {error} = await sb.auth.signInWithPassword({email, password:p});
+    if(error){ er.textContent = /confirm/i.test(error.message) ? '이메일 인증이 아직 완료되지 않았습니다.' : '아이디 또는 비밀번호가 맞지 않습니다.'; return; }
+    toast('로그인했습니다.'); location.hash = next;
+  };
+}
+function signupView(){
+  if(!sb) return needSetup();
+  $('#main').innerHTML = `<div class="wrap" style="padding:72px 24px 96px"><div class="auth-box" style="max-width:520px"><h2>회원가입</h2><p class="sub">가입하면 게시판 글쓰기와 사진 올리기를 이용할 수 있습니다.</p>
+  <form id="gf" novalidate>
+    <div class="field"><label for="gn">이름 <span class="req">*</span></label><input class="input" id="gn" name="name" required maxlength="20" autocomplete="name"></div>
+    <div class="field"><label for="gu">아이디 <span class="req">*</span></label><input class="input" id="gu" name="username" required autocomplete="username" pattern="[a-z0-9_]{4,20}"><div class="hint">영문 소문자, 숫자, 밑줄(_)로 4~20자</div></div>
+    <div class="field"><label for="gp">비밀번호 <span class="req">*</span></label><input class="input" type="password" id="gp" name="pw" required minlength="8" autocomplete="new-password"><div class="hint">8자 이상</div></div>
+    <div class="field"><label for="gp2">비밀번호 확인 <span class="req">*</span></label><input class="input" type="password" id="gp2" name="pw2" required autocomplete="new-password"></div>
+    <div class="field"><label for="ge">이메일 <span class="req">*</span></label><input class="input" type="email" id="ge" name="email" required autocomplete="email"></div>
+    <div class="field"><label for="gt">전화번호 <span class="req">*</span></label><input class="input" type="tel" id="gt" name="phone" required placeholder="010-0000-0000" autocomplete="tel"></div>
+    <div class="field"><label for="gy">졸업 기수 (선택)</label><select class="input" id="gy" name="cy"><option value="">선택 안 함</option>${Array.from({length:72},(_,i)=>`<option value="${i+1}">${i+1}회</option>`).join('')}</select></div>
+    <div class="consent">${PRIVACY}</div>
+    <div class="field check"><input type="checkbox" id="ga" required><label for="ga" style="margin:0;font-weight:400">개인정보 수집·이용에 동의합니다. <span class="req">*</span></label></div>
+    <div class="err" id="ger"></div><button class="btn" style="width:100%" id="gb">가입하기</button></form>
+  <p class="alt">이미 회원이신가요? <a href="#/login">로그인</a></p></div></div>`;
+  $('#gf').onsubmit = async e => {
+    e.preventDefault(); const f = e.target, er = $('#ger'); er.textContent='';
+    const v = {name:f.name.value.trim(), username:f.username.value.trim().toLowerCase(), pw:f.pw.value, email:f.email.value.trim(), phone:f.phone.value.trim(), cy:f.cy.value};
+    if(!v.name) return er.textContent='이름을 입력해 주세요.';
+    if(!/^[a-z0-9_]{4,20}$/.test(v.username)) return er.textContent='아이디는 영문 소문자, 숫자, 밑줄(_)로 4~20자여야 합니다.';
+    if(v.pw.length<8) return er.textContent='비밀번호는 8자 이상이어야 합니다.';
+    if(v.pw!==f.pw2.value) return er.textContent='비밀번호 확인이 일치하지 않습니다.';
+    if(!/^\S+@\S+\.\S+$/.test(v.email)) return er.textContent='이메일 주소를 확인해 주세요.';
+    if(!/^[0-9\-+ ]{9,15}$/.test(v.phone)) return er.textContent='전화번호를 확인해 주세요.';
+    if(!$('#ga').checked) return er.textContent='개인정보 수집·이용에 동의해 주세요.';
+    $('#gb').disabled = true;
+    const {data:ok} = await sb.rpc('username_available', {p_username: v.username});
+    if(ok===false){ $('#gb').disabled=false; return er.textContent='이미 사용 중인 아이디입니다.'; }
+    const {data, error} = await sb.auth.signUp({email:v.email, password:v.pw, options:{data:{username:v.username, name:v.name, phone:v.phone, class_year: v.cy||null}}});
+    $('#gb').disabled = false;
+    if(error) return er.textContent = /registered/i.test(error.message) ? '이미 가입된 이메일입니다.' : '가입하지 못했습니다: '+error.message;
+    if(!data.session){ $('#main').innerHTML = `<div class="wrap" style="padding:80px 24px"><div class="auth-box"><h2>메일을 확인해 주세요</h2><p class="sub">${esc(v.email)}로 보낸 인증 메일의 링크를 누르면 가입이 완료됩니다.</p><a class="btn" href="#/login">로그인 화면으로</a></div></div>`; return; }
+    toast('가입을 환영합니다.'); location.hash = '#/';
+  };
+}
+async function mypageView(){
+  if(!sb) return needSetup();
+  if(!USER){ location.hash='#/login?next=%23%2Fmypage'; return; }
+  const p = PROFILE || {};
+  $('#main').innerHTML = `<div class="sub-hero"><div class="wrap"><h1>내 정보</h1></div></div><div class="wrap" style="padding:40px 24px 90px;display:grid;gap:48px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
+    <form class="form" id="pf"><h3 class="h2" style="font-size:22px">회원 정보</h3>
+      <div class="field"><label>아이디</label><input class="input" value="${esc(p.username)}" disabled></div>
+      <div class="field"><label for="pn1">이름</label><input class="input" id="pn1" name="name" value="${esc(p.name)}" required></div>
+      <div class="field"><label for="pt1">전화번호</label><input class="input" id="pt1" name="phone" value="${esc(p.phone)}"></div>
+      <div class="field"><label for="py1">졸업 기수</label><select class="input" id="py1" name="cy"><option value="">선택 안 함</option>${Array.from({length:72},(_,i)=>`<option value="${i+1}" ${p.class_year==i+1?'selected':''}>${i+1}회</option>`).join('')}</select></div>
+      <div class="field"><label>이메일</label><input class="input" value="${esc(p.email||USER.email)}" disabled><div class="hint">이메일 변경은 사무국에 문의해 주세요.</div></div>
+      <button class="btn">정보 저장</button></form>
+    <form class="form" id="wf2"><h3 class="h2" style="font-size:22px">비밀번호 바꾸기</h3>
+      <div class="field"><label for="np">새 비밀번호</label><input class="input" type="password" id="np" name="np" minlength="8" required autocomplete="new-password"></div>
+      <div class="field"><label for="np2">새 비밀번호 확인</label><input class="input" type="password" id="np2" name="np2" required autocomplete="new-password"></div>
+      <div class="err" id="pe"></div><button class="btn">비밀번호 바꾸기</button></form></div>`;
+  $('#pf').onsubmit = async e => { e.preventDefault(); const f=e.target;
+    const {error} = await sb.from('profiles').update({name:f.name.value.trim(), phone:f.phone.value.trim(), class_year:f.cy.value?Number(f.cy.value):null}).eq('id',USER.id);
+    if(error) return toast('저장하지 못했습니다.'); await loadProfile(); renderUtil(); toast('정보를 저장했습니다.'); };
+  $('#wf2').onsubmit = async e => { e.preventDefault(); const f=e.target;
+    if(f.np.value.length<8) return $('#pe').textContent='8자 이상 입력해 주세요.';
+    if(f.np.value!==f.np2.value) return $('#pe').textContent='비밀번호 확인이 일치하지 않습니다.';
+    const {error} = await sb.auth.updateUser({password:f.np.value}); if(error) return $('#pe').textContent='바꾸지 못했습니다: '+error.message;
+    f.reset(); $('#pe').textContent=''; toast('비밀번호를 바꿨습니다.'); };
+}
+async function adminView(){
+  if(!sb) return needSetup();
+  if(!isAdmin()){ $('#main').innerHTML = '<div class="wrap" style="padding:80px 24px"><div class="empty"><p>관리자만 볼 수 있는 화면입니다.</p></div></div>'; return; }
+  $('#main').innerHTML = `<div class="sub-hero"><div class="wrap"><h1>관리자</h1></div></div><div class="wrap" style="padding:36px 24px 90px"><div id="ad"><div class="loading">불러오는 중</div></div></div>`;
+  const [{data:users=[]}, {count}] = await Promise.all([sb.from('profiles').select('*').order('created_at',{ascending:false}), sb.from('posts').select('id',{count:'exact',head:true})]);
+  $('#ad').innerHTML = `<p class="h2-sub">회원 ${users.length}명, 게시글 ${count||0}건. 관리자는 모든 게시판의 글과 댓글을 수정·삭제할 수 있습니다.</p>
+   <div class="board-tools"><input class="input" id="uq" placeholder="이름·아이디·기수 검색" style="max-width:280px"></div>
+   <div class="tbl-wrap"><table class="tbl"><thead><tr><th>이름</th><th>아이디</th><th class="num">기수</th><th>이메일</th><th>전화번호</th><th class="num">가입일</th><th class="num">권한</th></tr></thead><tbody id="ub"></tbody></table></div>
+   <p class="note">회원 탈퇴 처리(계정 완전 삭제)와 비밀번호 초기화는 Supabase 대시보드의 Authentication 메뉴에서 할 수 있습니다.</p>`;
+  const draw = q => { $('#ub').innerHTML = users.filter(u=>!q||[u.name,u.username,String(u.class_year||'')].some(x=>(x||'').includes(q))).map(u=>`<tr><td>${esc(u.name)}</td><td>${esc(u.username)}</td><td class="num">${u.class_year||''}</td><td>${esc(u.email||'')}</td><td>${esc(u.phone||'')}</td><td class="num">${fmt(u.created_at)}</td><td class="num"><select class="input" data-u="${u.id}" style="padding:4px 8px" ${u.id===USER.id?'disabled':''}><option value="member" ${u.role==='member'?'selected':''}>회원</option><option value="admin" ${u.role==='admin'?'selected':''}>관리자</option><option value="blocked" ${u.role==='blocked'?'selected':''}>이용 정지</option></select></td></tr>`).join('');
+    $('#ub').querySelectorAll('select').forEach(s=>s.onchange=async()=>{ const {error}=await sb.from('profiles').update({role:s.value}).eq('id',s.dataset.u); toast(error?'바꾸지 못했습니다.':'권한을 바꿨습니다.'); }); };
+  draw(''); $('#uq').oninput = e => draw(e.target.value.trim());
+}
+function notFound(){ $('#main').innerHTML = '<div class="wrap" style="padding:80px 24px"><div class="empty"><p>찾는 페이지가 없습니다.</p><a class="btn" href="#/">홈으로</a></div></div>'; }
+
+/* ---------- router ---------- */
+async function route(){
+  const raw = location.hash.replace(/^#\/?/,''); const [path, qs] = raw.split('?'); const params = new URLSearchParams(qs||'');
+  const seg = path.split('/');
+  $('#gnb').classList.remove('open'); $('#menuBtn').setAttribute('aria-expanded','false');
+  let sec = '';
+  if(!path) { await home(); }
+  else if(seg[0]==='b'){ sec = BOARDS[seg[1]]?.sec; await boardView(seg[1], params); }
+  else if(seg[0]==='p'){ await postView(seg[1]); }
+  else if(seg[0]==='w'){ sec = BOARDS[seg[1]]?.sec; await writeView(seg[1], params); }
+  else if(seg[0]==='login') loginView(params);
+  else if(seg[0]==='signup') signupView();
+  else if(seg[0]==='mypage') await mypageView();
+  else if(seg[0]==='admin') await adminView();
+  else if(PAGES[seg[0]]){ $('#main').innerHTML = PAGES[seg[0]](); sec = MENU.find(m=>m.items?.some(i=>i[1]===seg[0]))?.k || ''; }
+  else notFound();
+  renderNav(sec);
+  if(!(seg[0]==='b' && params.has('page'))) window.scrollTo(0,0);
+  document.title = (document.querySelector('.sub-hero h1')?.textContent ? document.querySelector('.sub-hero h1').textContent+' | ' : '') + '경성전자고등학교 총동창회';
+}
+async function loadProfile(){
+  if(!USER){ PROFILE=null; return; }
+  const {data} = await sb.from('profiles').select('*').eq('id',USER.id).maybeSingle(); PROFILE = data;
+}
+window.addEventListener('hashchange', route);
+(async function init(){
+  renderSetupBanner();
+  if(sb){
+    const {data:{session}} = await sb.auth.getSession(); USER = session?.user || null; await loadProfile();
+    sb.auth.onAuthStateChange(async (ev, s)=>{ const was = USER?.id; USER = s?.user || null; if(was!==USER?.id){ await loadProfile(); renderUtil(); } });
+  }
+  renderUtil(); route();
+})();
+</script>
+</body>
+</html>
